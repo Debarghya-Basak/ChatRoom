@@ -8,7 +8,6 @@ import android.os.Bundle;
 import android.util.Pair;
 import android.view.View;
 import android.widget.TextView;
-
 import com.google.android.material.button.MaterialButton;
 
 public class AuthenticationPage extends AppCompatActivity {
