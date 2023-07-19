@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "364109051197",
+    "project_id": "chatroom-dbtapps",
+    "storage_bucket": "chatroom-dbtapps.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:364109051197:android:b4a1496443c1064ebcc154",
+        "android_client_info": {
+          "package_name": "com.dbtapps.chatroom"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "364109051197-sfgeimvg1lqqvjabk5l5la2h9jp8qsbd.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyADWNBaoOpF1ETbgssIrH4lQzE9oQ7_RuU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "364109051197-sfgeimvg1lqqvjabk5l5la2h9jp8qsbd.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
