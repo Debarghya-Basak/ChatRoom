@@ -15,7 +15,7 @@
 
     <ConstraintSet android:id="@+id/start">
         <Constraint
-            android:id="@+id/appName"
+            android:id="@+id/app_name"
             motion:layout_constraintEnd_toEndOf="parent"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -28,7 +28,7 @@
 
     <ConstraintSet android:id="@+id/end">
         <Constraint
-            android:id="@+id/appName"
+            android:id="@+id/app_name"
             motion:layout_constraintEnd_toEndOf="parent"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -38,7 +38,7 @@
             android:scaleX="1"
             android:scaleY="1" />
         <Constraint
-            android:id="@+id/appName"
+            android:id="@+id/app_name"
             android:scaleX="1"
             motion:layout_constraintEnd_toEndOf="parent"
             android:layout_width="wrap_content"

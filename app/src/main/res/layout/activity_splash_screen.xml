@@ -10,7 +10,7 @@
     tools:context=".SplashScreen">
 
     <TextView
-        android:id="@+id/appName"
+        android:id="@+id/app_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:layout_constraintBottom_toBottomOf="parent"

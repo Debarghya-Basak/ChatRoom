@@ -1,9 +1,6 @@
 package com.dbtapps.chatroom;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.constraintlayout.motion.widget.MotionLayout;
-import androidx.core.app.ActivityOptionsCompat;
-import androidx.core.view.ViewCompat;
 
 import android.app.ActivityOptions;
 import android.content.Intent;
@@ -21,7 +18,7 @@ public class SplashScreen extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash_screen);
 
-        appName = findViewById(R.id.appName);
+        appName = findViewById(R.id.app_name);
 
         screenTransition();
 
@@ -32,12 +29,10 @@ public class SplashScreen extends AppCompatActivity {
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                Intent intent = new Intent(SplashScreen.this, AuthenticationPage.class);
-
                 Pair pairs[] = new Pair[1];
                 pairs[0] = new Pair<View, String>(appName, "appNameTransition");
-
                 ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(SplashScreen.this, pairs);
+                Intent intent = new Intent(SplashScreen.this, AuthenticationPage.class);
                 startActivity(intent,options.toBundle());
 
             }
@@ -48,7 +43,7 @@ public class SplashScreen extends AppCompatActivity {
             public void run() {
                 finish();
             }
-        },2000);
+        },2500);
 
     }
 }

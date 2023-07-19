@@ -4,5 +4,5 @@
     <color name="white">#FFFFFFFF</color>
     <color name="grey">#818181</color>
     <color name="dark_grey">#373737</color>
-
+    <color name="mtrl_textinput_default_box_stroke_color">#fff</color>
 </resources>
