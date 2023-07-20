@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/black"
-    tools:context=".LoginPage">
+    tools:context=".activities.LoginPage">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -30,28 +30,28 @@
             android:text="@string/app_name"
             android:textAppearance="@style/AppNameStyle50"/>
 
+<!--        <com.google.android.material.textfield.TextInputLayout-->
+<!--            android:id="@+id/phoneEtl"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_marginBottom="20sp"-->
+
+<!--            android:hint="Enter phone number"-->
+
+<!--            style="@style/WhiteOutlineEditTextLayout">-->
+
+<!--            <com.google.android.material.textfield.TextInputEditText-->
+<!--                android:id="@+id/phoneEt"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:inputType="phone"-->
+
+<!--                style="@style/WhiteOutlineEditText"/>-->
+
+<!--        </com.google.android.material.textfield.TextInputLayout>-->
+
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/phone_editTextLayout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="20sp"
-
-            android:hint="Enter phone number"
-
-            style="@style/WhiteOutlineEditTextLayout">
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/phone_editText"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:inputType="phone"
-
-                style="@style/WhiteOutlineEditText"/>
-
-        </com.google.android.material.textfield.TextInputLayout>
-
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/password_editTextLayout"
+            android:id="@+id/passwordEtl"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="20sp"
@@ -61,7 +61,7 @@
             style="@style/WhiteOutlineEditTextLayout">
 
             <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/password_editText"
+                android:id="@+id/passwordEt"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="textPassword"
@@ -71,13 +71,13 @@
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.button.MaterialButton
-            android:id="@+id/login_button"
+            android:id="@+id/loginBtn"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
 
-            android:transitionName="loginButtonTransition"
+            android:transitionName="loginBtnTransition"
             android:text="@string/login"
-            android:alpha="0"
+            android:alpha="1"
 
             style="@style/WhiteFilledButton" />
 

@@ -1,8 +1,10 @@
-package com.dbtapps.chatroom;
+package com.dbtapps.chatroom.activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
+
+import com.dbtapps.chatroom.R;
 import com.google.android.material.appbar.MaterialToolbar;
 
 public class MainActivity extends AppCompatActivity {

@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".activities.OTPVerificationPage">
+    android:background="@color/black"
+    tools:context=".activities.OTPSendPage">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -30,35 +31,39 @@
             android:textAppearance="@style/AppNameStyle50"/>
 
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/otpVerifyEtl"
+            android:id="@+id/phoneEtl"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="20sp"
 
-            android:hint="Enter OTP"
+            android:hint="Enter phone number"
 
             style="@style/WhiteOutlineEditTextLayout">
 
             <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/otpVerifyEt"
+                android:id="@+id/phoneEt"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:inputType="numberPassword"
+                android:inputType="phone"
 
                 style="@style/WhiteOutlineEditText"/>
 
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.button.MaterialButton
-            android:id="@+id/otpVerifyBtn"
+            android:id="@+id/sendOTPBtn"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
 
-            android:transitionName="verifyBtnTransition"
-            android:text="@string/verify"
+            android:transitionName="sendOTPBtnTransition"
+            android:text="@string/send_otp"
+            android:alpha="0"
 
             style="@style/WhiteFilledButton" />
 
+
     </LinearLayout>
+
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#000000"
-    tools:context=".AuthenticationPage">
+    tools:context=".activities.AuthenticationPage">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -20,7 +20,7 @@
         android:gravity="center">
 
         <TextView
-            android:id="@+id/app_name"
+            android:id="@+id/appName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="20sp"
@@ -31,22 +31,22 @@
             android:textAppearance="@style/AppNameStyle50"/>
 
         <com.google.android.material.button.MaterialButton
-            android:id="@+id/login_button"
+            android:id="@+id/loginBtn"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="20sp"
 
-            android:transitionName="loginButtonTransition"
+            android:transitionName="loginBtnTransition"
             android:text="@string/login"
 
             style="@style/WhiteOutlineButton"/>
 
         <com.google.android.material.button.MaterialButton
-            android:id="@+id/register_button"
+            android:id="@+id/registerBtn"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
 
-            android:transitionName="registerButtonTransition"
+            android:transitionName="registerBtnTransition"
             android:text="@string/register"
 
             style="@style/WhiteFilledButton"/>
