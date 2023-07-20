@@ -2,19 +2,13 @@ package com.dbtapps.chatroom.java;
 
 import android.app.Activity;
 import android.app.ActivityOptions;
-import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
 import android.util.Pair;
 import android.view.View;
 import android.widget.TextView;
-
 import androidx.annotation.NonNull;
-
-import com.dbtapps.chatroom.LoginPage;
-import com.dbtapps.chatroom.MainActivity;
 import com.dbtapps.chatroom.OTPVerificationPage;
-import com.dbtapps.chatroom.RegisterPage;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.button.MaterialButton;
@@ -28,7 +22,6 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.PhoneAuthCredential;
 import com.google.firebase.auth.PhoneAuthOptions;
 import com.google.firebase.auth.PhoneAuthProvider;
-
 import java.util.concurrent.TimeUnit;
 
 public class FirebaseAuthentication {
