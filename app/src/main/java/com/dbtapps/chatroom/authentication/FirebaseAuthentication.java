@@ -53,9 +53,9 @@ public class FirebaseAuthentication {
                 Log.d("Debug", "onVerificationFailed", e);
 
                 if (e instanceof FirebaseAuthInvalidCredentialsException) {
-                    // Invalid request
+                    MakeToast.makeLongToast(activity.getApplicationContext(), e.getMessage());
                 } else if (e instanceof FirebaseTooManyRequestsException) {
-                    // The SMS quota for the project has been exceeded
+                    MakeToast.makeLongToast(activity.getApplicationContext(), "SMS Quota for ChatRoom has been exceeded due to huge number of users at the moment. Please wait till next day.");
                 } else if (e instanceof FirebaseAuthMissingActivityForRecaptchaException) {
                     // reCAPTCHA verification attempted with null Activity
                 }
