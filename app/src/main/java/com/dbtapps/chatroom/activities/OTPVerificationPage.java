@@ -22,12 +22,11 @@ public class OTPVerificationPage extends AppCompatActivity {
         activity = this;
 
         verifyBtnListener();
-
     }
 
     private void verifyBtnListener() {
         binding.otpVerifyBtn.setOnClickListener(v -> {
-                FirebaseAuthentication.verifyOTP(activity, binding.otpVerifyEt.getText().toString());
+                FirebaseAuthentication.verifyOTP(activity, binding.otpVerifyEt.getText().toString(), binding.appName, binding.otpVerifyBtn);
         });
     }
 }

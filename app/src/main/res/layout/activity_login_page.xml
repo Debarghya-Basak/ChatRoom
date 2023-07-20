@@ -20,7 +20,7 @@
         android:gravity="center">
 
         <TextView
-            android:id="@+id/app_name"
+            android:id="@+id/appName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="20sp"
@@ -29,26 +29,6 @@
 
             android:text="@string/app_name"
             android:textAppearance="@style/AppNameStyle50"/>
-
-<!--        <com.google.android.material.textfield.TextInputLayout-->
-<!--            android:id="@+id/phoneEtl"-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:layout_marginBottom="20sp"-->
-
-<!--            android:hint="Enter phone number"-->
-
-<!--            style="@style/WhiteOutlineEditTextLayout">-->
-
-<!--            <com.google.android.material.textfield.TextInputEditText-->
-<!--                android:id="@+id/phoneEt"-->
-<!--                android:layout_width="match_parent"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:inputType="phone"-->
-
-<!--                style="@style/WhiteOutlineEditText"/>-->
-
-<!--        </com.google.android.material.textfield.TextInputLayout>-->
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/passwordEtl"

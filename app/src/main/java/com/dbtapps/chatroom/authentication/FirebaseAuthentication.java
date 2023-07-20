@@ -3,10 +3,13 @@ package com.dbtapps.chatroom.authentication;
 import android.app.Activity;
 import android.app.ActivityOptions;
 import android.content.Intent;
+import android.os.Handler;
 import android.util.Log;
 import android.util.Pair;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
+
 import androidx.annotation.NonNull;
 
 import com.dbtapps.chatroom.activities.LoginPage;
@@ -14,17 +17,12 @@ import com.dbtapps.chatroom.activities.OTPVerificationPage;
 import com.dbtapps.chatroom.activities.RegisterPage;
 import com.dbtapps.chatroom.constants.Constants;
 import com.dbtapps.chatroom.utilities.MakeToast;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
 import com.google.android.material.button.MaterialButton;
-import com.google.android.material.transition.MaterialContainerTransform;
 import com.google.firebase.FirebaseException;
 import com.google.firebase.FirebaseTooManyRequestsException;
-import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException;
 import com.google.firebase.auth.FirebaseAuthMissingActivityForRecaptchaException;
-import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.PhoneAuthCredential;
 import com.google.firebase.auth.PhoneAuthOptions;
 import com.google.firebase.auth.PhoneAuthProvider;
@@ -78,6 +76,7 @@ public class FirebaseAuthentication {
                 Intent intent = new Intent(activity, OTPVerificationPage.class);
                 intent.putExtra("loginRegisterFlag", LOGIN_REGISTER_FLAG);
                 activity.startActivity(intent, options.toBundle());
+                finishActivity(activity);
 
                 mVerificationId = verificationId;
                 mResendToken = token;
@@ -95,40 +94,52 @@ public class FirebaseAuthentication {
 
     }
 
-    public static void verifyOTP(Activity activity, String code){
+    public static void verifyOTP(Activity activity, String code, TextView appName, MaterialButton button){
         PhoneAuthCredential credential = PhoneAuthProvider.getCredential(mVerificationId, code);
-        signInWithPhoneAuthCredential(activity, credential);
+        signInWithPhoneAuthCredential(activity, credential, appName, button);
     }
 
 
-    private static void signInWithPhoneAuthCredential(Activity activity, PhoneAuthCredential credential) {
+    private static void signInWithPhoneAuthCredential(Activity activity, PhoneAuthCredential credential,TextView appName, MaterialButton button) {
 
         mAuth.signInWithCredential(credential)
-            .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-            @Override
-            public void onComplete(@NonNull Task<AuthResult> task) {
+            .addOnCompleteListener(task -> {
                 if (task.isSuccessful()) {
                     Log.d("Debug", "signInWithCredential:success");
                     Constants.USERID = task.getResult().getUser();
+                    MakeToast.makeToast(activity.getApplicationContext(), "OTP Verification successful");
                     if(LOGIN_REGISTER_FLAG == 0) {
+                        Pair pairs[] = new Pair[2];
+                        pairs[0] = new Pair<View,String>(appName, "appNameTransition");
+                        pairs[1] = new Pair<View,String>(button, "loginBtnTransition");
+                        ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(activity, pairs);
                         Intent intent = new Intent(activity, LoginPage.class);
-                        activity.startActivity(intent);
+                        activity.startActivity(intent,options.toBundle());
+                        finishActivity(activity);
                     }
                     else {
+                        Pair pairs[] = new Pair[2];
+                        pairs[0] = new Pair<View,String>(appName, "appNameTransition");
+                        pairs[1] = new Pair<View,String>(button, "registerBtnTransition");
+                        ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(activity, pairs);
                         Intent intent = new Intent(activity, RegisterPage.class);
-                        activity.startActivity(intent);
+                        activity.startActivity(intent,options.toBundle());
+                        finishActivity(activity);
                     }
                 } else {
                     Log.d("Debug", "signInWithCredential:failure", task.getException());
                     if (task.getException() instanceof FirebaseAuthInvalidCredentialsException) {
-
+                        MakeToast.makeToast(activity.getApplicationContext(), "Wrong OTP Entered");
+                        finishActivity(activity);
                     }
                 }
-            }
-        });
+            });
+    }
 
-
-
+    private static void finishActivity(Activity activity){
+        new Handler().postDelayed(() -> {
+            activity.finish();
+        },1000);
     }
 
 }
