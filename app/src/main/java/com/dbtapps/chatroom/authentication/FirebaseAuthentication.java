@@ -75,6 +75,7 @@ public class FirebaseAuthentication {
                 ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(activity, pairs);
                 Intent intent = new Intent(activity, OTPVerificationPage.class);
                 intent.putExtra("loginRegisterFlag", LOGIN_REGISTER_FLAG);
+                //intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                 activity.startActivity(intent, options.toBundle());
                 finishActivity(activity);
 
@@ -114,6 +115,7 @@ public class FirebaseAuthentication {
                         pairs[1] = new Pair<View,String>(button, "loginBtnTransition");
                         ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(activity, pairs);
                         Intent intent = new Intent(activity, LoginPage.class);
+                        //intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                         activity.startActivity(intent,options.toBundle());
                         finishActivity(activity);
                     }
@@ -123,6 +125,7 @@ public class FirebaseAuthentication {
                         pairs[1] = new Pair<View,String>(button, "registerBtnTransition");
                         ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(activity, pairs);
                         Intent intent = new Intent(activity, RegisterPage.class);
+                        //intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                         activity.startActivity(intent,options.toBundle());
                         finishActivity(activity);
                     }
