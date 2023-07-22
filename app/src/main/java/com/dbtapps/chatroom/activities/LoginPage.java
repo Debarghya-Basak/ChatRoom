@@ -45,7 +45,15 @@ public class LoginPage extends AppCompatActivity {
         binding.loginBtn.setOnClickListener(v -> {
             //TODO: Add checks for Edit Text
             if(binding.passwordEt.getText().toString().equals(Constants.getKeyPassword())){
-                MakeToast.makeToast(getApplicationContext(), "LOGIN successfull");
+                if(binding.signInFlagCb.isChecked()){
+                    db.collection("users")
+                                    .document()
+                    MakeToast.makeToast(getApplicationContext(), "LOGIN successfull. Token inserted");
+                }
+                else{
+                    MakeToast.makeToast(getApplicationContext(), "LOGIN successfull. Token not inserted");
+                }
+
             }
             else{
                 MakeToast.makeToast(getApplicationContext(), "Incorrect password entered");

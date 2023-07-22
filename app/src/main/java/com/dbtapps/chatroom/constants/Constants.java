@@ -4,11 +4,16 @@ import com.google.firebase.auth.FirebaseUser;
 
 public class Constants {
 
+    private static String KEY_TOKEN;
     private static FirebaseUser USERID;
     private static String KEY_PHONE;
     private static String KEY_PASSWORD;
     private static String KEY_NAME;
     private static String KEY_PROFILE_PICTURE;
+
+    public static String getKeyToken() { return KEY_TOKEN; }
+
+    public static void setKeyToken(String keyToken) { KEY_TOKEN = keyToken; }
 
     public static String getKeyName() {
         return KEY_NAME;
@@ -22,9 +27,7 @@ public class Constants {
         return KEY_PROFILE_PICTURE;
     }
 
-    public static void setKeyProfilePicture(String keyProfilePicture) {
-        KEY_PROFILE_PICTURE = keyProfilePicture;
-    }
+    public static void setKeyProfilePicture(String keyProfilePicture) { KEY_PROFILE_PICTURE = keyProfilePicture; }
 
     public static FirebaseUser getUSERID() {
         return USERID;

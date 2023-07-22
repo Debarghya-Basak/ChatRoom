@@ -71,6 +71,13 @@
 
         </com.google.android.material.textfield.TextInputLayout>
 
+        <CheckBox
+            android:id="@+id/signInFlagCb"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+
+            android:text="Stay logged in"/>
+
         <com.google.android.material.button.MaterialButton
             android:id="@+id/loginBtn"
             android:layout_width="match_parent"
