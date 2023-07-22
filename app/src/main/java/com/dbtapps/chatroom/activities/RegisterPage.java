@@ -87,7 +87,6 @@ public class RegisterPage extends AppCompatActivity {
             userData.put("password", binding.passwordEt.getText().toString());
             userData.put("profile_picture", Constants.getKeyProfilePicture());
             userData.put("phone_number", Constants.getKeyPhone());
-            userData.put("account_active_status", "false");
             FirebaseFirestore db = FirebaseFirestore.getInstance();
             db.collection("users")
                     .document(Constants.getUSERID().getUid())

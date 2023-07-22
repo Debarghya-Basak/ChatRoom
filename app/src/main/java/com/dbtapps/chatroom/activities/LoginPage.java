@@ -12,6 +12,9 @@ import com.dbtapps.chatroom.utilities.BitmapManipulator;
 import com.dbtapps.chatroom.utilities.MakeToast;
 import com.google.firebase.firestore.FirebaseFirestore;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class LoginPage extends AppCompatActivity {
 
     private ActivityLoginPageBinding binding;
@@ -46,8 +49,17 @@ public class LoginPage extends AppCompatActivity {
             //TODO: Add checks for Edit Text
             if(binding.passwordEt.getText().toString().equals(Constants.getKeyPassword())){
                 if(binding.signInFlagCb.isChecked()){
+                    Map<String, Object> userData = new HashMap<>();
+                    userData.put("name", Constants.getKeyName());
+                    userData.put("password", Constants.getKeyPassword());
+                    userData.put("phone_number", Constants.getKeyPhone());
+                    userData.put("profile_picture", Constants.getKeyProfilePicture());
+                    userData.put("token", Constants.getKeyToken());
+
                     db.collection("users")
-                                    .document()
+                            .document(Constants.getUSERID().getUid())
+                            .set(userData);
+
                     MakeToast.makeToast(getApplicationContext(), "LOGIN successfull. Token inserted");
                 }
                 else{
