@@ -11,8 +11,8 @@ public class Constants {
         return USERID;
     }
 
-    public static void setUSERID(FirebaseUser USERID) {
-        Constants.USERID = USERID;
+    public static void setUSERID(FirebaseUser USER_ID) {
+        USERID = USER_ID;
     }
 
     public static String getKeyPassword() {

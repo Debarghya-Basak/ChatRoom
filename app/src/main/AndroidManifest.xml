@@ -3,6 +3,10 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"
+        android:maxSdkVersion="32"/>
+    <uses-permission android:name="android.permission.READ_MEDIA_IMAGES" />
+
 
     <application
         android:allowBackup="true"
@@ -29,7 +33,9 @@
             android:exported="false" />
         <activity
             android:name=".activities.RegisterPage"
-            android:exported="false" />
+            android:exported="false">
+
+        </activity>
         <activity
             android:name=".activities.LoginPage"
             android:exported="false" />
@@ -44,6 +50,7 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+
         </activity>
         <activity
             android:name=".activities.MainActivity"

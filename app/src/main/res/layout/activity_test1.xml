@@ -30,7 +30,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
-        android:background="@drawable/background_view"
+        android:background="@drawable/default_profile_pic_edit_background"
         />
 
     <com.google.android.material.button.MaterialButton

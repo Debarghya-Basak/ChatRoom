@@ -11,6 +11,7 @@ import android.widget.TextView;
 
 import com.dbtapps.chatroom.R;
 import com.dbtapps.chatroom.authentication.FirebaseAuthentication;
+import com.dbtapps.chatroom.constants.Constants;
 import com.dbtapps.chatroom.databinding.ActivityRegisterPageBinding;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -44,9 +45,8 @@ public class RegisterPage extends AppCompatActivity {
             userData.put("name", binding.nameEt.getText().toString());
             userData.put("password", binding.passwordEt.getText().toString());
             FirebaseFirestore db = FirebaseFirestore.getInstance();
-            //TODO: Change .document("test") to .document(Constants.USERID.getUid())
             db.collection("users")
-                    .document("test")
+                    .document(Constants.getUSERID().getUid())
                     .set(userData)
                     .addOnSuccessListener(aVoid -> {
                         Log.d("Debug", "User Data added");

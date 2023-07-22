@@ -1,14 +1,19 @@
 package com.dbtapps.chatroom.activities;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 
+import android.Manifest;
 import android.app.ActivityOptions;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.util.Pair;
 import android.view.View;
 
 import com.dbtapps.chatroom.databinding.ActivityAuthenticationPageBinding;
+import com.dbtapps.chatroom.utilities.PermissionManager;
 
 public class AuthenticationPage extends AppCompatActivity {
 
@@ -24,6 +29,7 @@ public class AuthenticationPage extends AppCompatActivity {
 
         loginButtonListener();
         registerButtonListener();
+        PermissionManager.permissionManager(this);
     }
 
     private void loginButtonListener() {

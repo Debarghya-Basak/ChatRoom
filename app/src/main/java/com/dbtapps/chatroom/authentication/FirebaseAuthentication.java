@@ -113,7 +113,7 @@ public class FirebaseAuthentication {
                 if (task.isSuccessful()) {
                     LoadingAnimationController.animationStop(loadingAnimation);
                     Constants.setUSERID(task.getResult().getUser());
-                    Log.d("Debug", "signInWithCredential:success");
+                    Log.d("Debug", "signInWithCredential:success --> UID : " + Constants.getUSERID().getUid());
                     MakeToast.makeToast(activity.getApplicationContext(), "OTP Verification successful");
                     checkUserRegistered(activity, appName, button);
                 } else {
@@ -129,9 +129,8 @@ public class FirebaseAuthentication {
 
     private static void checkUserRegistered(Activity activity,TextView appName, MaterialButton button) {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
-        //TODO: change .document("test") to .document(Constants.USERID.getUid())
         db.collection("users")
-                .document("test")
+                .document(Constants.getUSERID().getUid())
                 .get()
                 .addOnCompleteListener(task -> {
                     if (task.isSuccessful()) {
@@ -147,7 +146,6 @@ public class FirebaseAuthentication {
                             //intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                             activity.startActivity(intent, options.toBundle());
                             finishActivity(activity);
-
                         }
                         else if(LOGIN_REGISTER_FLAG == 1 && !document.exists()){
 
