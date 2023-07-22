@@ -8,14 +8,15 @@ import android.util.Log;
 import android.util.Pair;
 import android.view.View;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 
+import com.airbnb.lottie.LottieAnimationView;
 import com.dbtapps.chatroom.activities.LoginPage;
 import com.dbtapps.chatroom.activities.OTPVerificationPage;
 import com.dbtapps.chatroom.activities.RegisterPage;
 import com.dbtapps.chatroom.constants.Constants;
+import com.dbtapps.chatroom.utilities.LoadingAnimationController;
 import com.dbtapps.chatroom.utilities.MakeToast;
 import com.google.android.material.button.MaterialButton;
 import com.google.firebase.FirebaseException;
@@ -26,6 +27,9 @@ import com.google.firebase.auth.FirebaseAuthMissingActivityForRecaptchaException
 import com.google.firebase.auth.PhoneAuthCredential;
 import com.google.firebase.auth.PhoneAuthOptions;
 import com.google.firebase.auth.PhoneAuthProvider;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
+
 import java.util.concurrent.TimeUnit;
 
 public class FirebaseAuthentication {
@@ -36,7 +40,7 @@ public class FirebaseAuthentication {
     private static FirebaseAuth mAuth;
     private static int LOGIN_REGISTER_FLAG;
 
-    public static void sendOTP(Activity activity, String phoneNumber, TextView appName, MaterialButton button, int lrFlag){
+    public static void sendOTP(Activity activity, String phoneNumber, TextView appName, MaterialButton button, LottieAnimationView loadingAnimation, int lrFlag){
         LOGIN_REGISTER_FLAG = lrFlag;
         mAuth = FirebaseAuth.getInstance();
         mCallbacks = new PhoneAuthProvider.OnVerificationStateChangedCallbacks() {
@@ -44,6 +48,7 @@ public class FirebaseAuthentication {
             public void onVerificationCompleted(@NonNull PhoneAuthCredential credential) {
 
                 Log.d("Debug", "FirebaseAuthentication : onVerificationCompleted:" + credential);
+                LoadingAnimationController.animationStop(loadingAnimation);
 
             }
 
@@ -51,16 +56,15 @@ public class FirebaseAuthentication {
             public void onVerificationFailed(@NonNull FirebaseException e) {
 
                 Log.d("Debug", "onVerificationFailed", e);
+                LoadingAnimationController.animationStop(loadingAnimation);
 
                 if (e instanceof FirebaseAuthInvalidCredentialsException) {
                     MakeToast.makeLongToast(activity.getApplicationContext(), e.getMessage());
                 } else if (e instanceof FirebaseTooManyRequestsException) {
                     MakeToast.makeLongToast(activity.getApplicationContext(), "SMS Quota for ChatRoom has been exceeded due to huge number of users at the moment. Please wait till next day.");
                 } else if (e instanceof FirebaseAuthMissingActivityForRecaptchaException) {
-                    // reCAPTCHA verification attempted with null Activity
+                    MakeToast.makeLongToast(activity.getApplicationContext(), "reCAPTCHA verification unsuccessfull/ not done due to null activity");
                 }
-
-
             }
 
             @Override
@@ -68,6 +72,7 @@ public class FirebaseAuthentication {
                                    @NonNull PhoneAuthProvider.ForceResendingToken token) {
 
                 MakeToast.makeToast(activity.getApplicationContext(), "Code sent to your phone number");
+                LoadingAnimationController.animationStop(loadingAnimation);
 
                 Pair pairs[] = new Pair[2];
                 pairs[0] = new Pair<View,String>(appName, "appNameTransition");
@@ -92,44 +97,27 @@ public class FirebaseAuthentication {
                         .setCallbacks(mCallbacks)
                         .build();
         PhoneAuthProvider.verifyPhoneNumber(options);
-
+        LoadingAnimationController.animationStart(loadingAnimation);
     }
 
-    public static void verifyOTP(Activity activity, String code, TextView appName, MaterialButton button){
+    public static void verifyOTP(Activity activity, String code, TextView appName, LottieAnimationView loadingAnimation, MaterialButton button){
+        LoadingAnimationController.animationStart(loadingAnimation);
         PhoneAuthCredential credential = PhoneAuthProvider.getCredential(mVerificationId, code);
-        signInWithPhoneAuthCredential(activity, credential, appName, button);
+        signInWithPhoneAuthCredential(activity, credential, appName, loadingAnimation, button);
     }
 
 
-    private static void signInWithPhoneAuthCredential(Activity activity, PhoneAuthCredential credential,TextView appName, MaterialButton button) {
-
+    private static void signInWithPhoneAuthCredential(Activity activity, PhoneAuthCredential credential,TextView appName, LottieAnimationView loadingAnimation, MaterialButton button) {
         mAuth.signInWithCredential(credential)
             .addOnCompleteListener(task -> {
                 if (task.isSuccessful()) {
-                    Log.d("Debug", "signInWithCredential:success");
+                    LoadingAnimationController.animationStop(loadingAnimation);
                     Constants.USERID = task.getResult().getUser();
+                    Log.d("Debug", "signInWithCredential:success");
                     MakeToast.makeToast(activity.getApplicationContext(), "OTP Verification successful");
-                    if(LOGIN_REGISTER_FLAG == 0) {
-                        Pair pairs[] = new Pair[2];
-                        pairs[0] = new Pair<View,String>(appName, "appNameTransition");
-                        pairs[1] = new Pair<View,String>(button, "loginBtnTransition");
-                        ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(activity, pairs);
-                        Intent intent = new Intent(activity, LoginPage.class);
-                        //intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
-                        activity.startActivity(intent,options.toBundle());
-                        finishActivity(activity);
-                    }
-                    else {
-                        Pair pairs[] = new Pair[2];
-                        pairs[0] = new Pair<View,String>(appName, "appNameTransition");
-                        pairs[1] = new Pair<View,String>(button, "registerBtnTransition");
-                        ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(activity, pairs);
-                        Intent intent = new Intent(activity, RegisterPage.class);
-                        //intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
-                        activity.startActivity(intent,options.toBundle());
-                        finishActivity(activity);
-                    }
+                    checkUserRegistered(activity, appName, button);
                 } else {
+                    LoadingAnimationController.animationStop(loadingAnimation);
                     Log.d("Debug", "signInWithCredential:failure", task.getException());
                     if (task.getException() instanceof FirebaseAuthInvalidCredentialsException) {
                         MakeToast.makeToast(activity.getApplicationContext(), "Wrong OTP Entered");
@@ -137,6 +125,50 @@ public class FirebaseAuthentication {
                     }
                 }
             });
+    }
+
+    private static void checkUserRegistered(Activity activity,TextView appName, MaterialButton button) {
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        db.collection("users")
+                .document("test")
+                .get()
+                .addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
+                        DocumentSnapshot document = task.getResult();
+                        if(LOGIN_REGISTER_FLAG == 0 && document.exists()) {
+                            Log.d("Debug", "DocumentSnapshot data: " + document.getData());
+                            Pair pairs[] = new Pair[2];
+                            pairs[0] = new Pair<View, String>(appName, "appNameTransition");
+                            pairs[1] = new Pair<View, String>(button, "loginBtnTransition");
+                            ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(activity, pairs);
+                            Intent intent = new Intent(activity, LoginPage.class);
+                            //intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+                            activity.startActivity(intent, options.toBundle());
+                            finishActivity(activity);
+
+                        }
+                        else if(LOGIN_REGISTER_FLAG == 1 && !document.exists()){
+
+                            Pair pairs[] = new Pair[2];
+                            pairs[0] = new Pair<View, String>(appName, "appNameTransition");
+                            pairs[1] = new Pair<View, String>(button, "registerBtnTransition");
+                            ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(activity, pairs);
+                            Intent intent = new Intent(activity, RegisterPage.class);
+                            //intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+                            activity.startActivity(intent, options.toBundle());
+                            finishActivity(activity);
+                        }
+                        else if(LOGIN_REGISTER_FLAG == 0 && !document.exists()){
+                            MakeToast.makeLongToast(activity.getApplicationContext(), "You are not registered. Please register first to Login.");
+                            finishActivity(activity);
+                        }
+                        else if(LOGIN_REGISTER_FLAG == 1 && document.exists()){
+                            MakeToast.makeLongToast(activity.getApplicationContext(), "You are already registered. You can login.");
+                            finishActivity(activity);
+                        }
+
+                    }
+                });
     }
 
     private static void finishActivity(Activity activity){

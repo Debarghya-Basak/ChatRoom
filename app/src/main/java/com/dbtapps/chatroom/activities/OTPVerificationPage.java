@@ -26,7 +26,7 @@ public class OTPVerificationPage extends AppCompatActivity {
 
     private void verifyBtnListener() {
         binding.otpVerifyBtn.setOnClickListener(v -> {
-                FirebaseAuthentication.verifyOTP(activity, binding.otpVerifyEt.getText().toString(), binding.appName, binding.otpVerifyBtn);
+                FirebaseAuthentication.verifyOTP(activity, binding.otpVerifyEt.getText().toString(), binding.appName, binding.loadingAnimation,binding.otpVerifyBtn);
         });
     }
 }

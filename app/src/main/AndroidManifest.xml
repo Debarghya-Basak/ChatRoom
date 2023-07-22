@@ -17,11 +17,6 @@
         <activity
             android:name=".activities.TestActivity1"
             android:exported="true" >
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
         <activity
             android:name=".activities.OTPSendPage"
@@ -43,7 +38,13 @@
             android:exported="false" />
         <activity
             android:name=".activities.SplashScreen"
-            android:exported="false"/>
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
         <activity
             android:name=".activities.MainActivity"
             android:exported="false" />

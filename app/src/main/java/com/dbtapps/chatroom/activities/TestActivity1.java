@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.app.Dialog;
 import android.os.Bundle;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 
 import com.dbtapps.chatroom.R;
 import com.dbtapps.chatroom.databinding.ActivityTest1Binding;
@@ -19,25 +20,30 @@ public class TestActivity1 extends AppCompatActivity {
         binding = ActivityTest1Binding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        Dialog d = new Dialog(TestActivity1.this);
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS,WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
 
+        showDialogBtnListener();
+    }
+
+    private void showDialogBtnListener(){
         binding.showDialog.setOnClickListener(v -> {
-            d.setContentView(R.layout.dialog_test1);
-            d.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, 100);
-            d.setCancelable(true);
-            //d.getWindow().getAttributes().windowAnimations = R.style.animation;
-
             if(c == 0){
-                d.show();
+                animateStart();
                 c++;
             }
-            else {
-                d.dismiss();
+            else{
+                animateStop();
                 c--;
             }
 
         });
+    }
 
+    private void animateStart(){
+        binding.loadingAnimation.animate().alpha(1).setDuration(1000).start();
+    }
 
+    private void animateStop(){
+        binding.loadingAnimation.animate().alpha(0).setDuration(1000).start();
     }
 }

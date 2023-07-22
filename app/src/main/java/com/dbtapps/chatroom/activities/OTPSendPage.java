@@ -6,6 +6,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.view.LayoutInflater;
 import android.view.View;
 
 import com.dbtapps.chatroom.R;
@@ -44,7 +45,7 @@ public class OTPSendPage extends AppCompatActivity {
             else if(phoneNumber.charAt(0) != '+')
                 MakeToast.makeToast(this, "Please enter country code");
             else{
-                FirebaseAuthentication.sendOTP(activity, phoneNumber, binding.appName, binding.sendOTPBtn, LOGIN_REGISTER_FLAG);
+                FirebaseAuthentication.sendOTP(activity, phoneNumber, binding.appName, binding.sendOTPBtn, binding.loadingAnimation, LOGIN_REGISTER_FLAG);
             }
         });
     }

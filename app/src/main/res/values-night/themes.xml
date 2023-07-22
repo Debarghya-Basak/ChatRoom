@@ -9,6 +9,13 @@
         <item name="android:windowEnterTransition">@transition/default_window_fade</item>
         <item name="android:windowExitTransition">@transition/default_window_fade</item>
         <item name="android:windowBackground">@color/black</item>
+
+        <!--  to make app fullscreen -->
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:windowTranslucentNavigation">true</item>
+        <item name="android:windowTranslucentStatus">true</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowFullscreen">false</item>
     </style>
 
     <style name="Theme.ChatRoom" parent="Base.Theme.ChatRoom"/>
