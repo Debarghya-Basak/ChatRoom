@@ -44,11 +44,12 @@
             android:id="@+id/userNameTv"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="20sp"
 
             android:gravity="center"
             android:text="- - -"
-            android:textColor="@color/white"
-            style="@style/AppNameStyle30"/>
+
+            style="@style/UserNameStyle30"/>
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/passwordEtl"
