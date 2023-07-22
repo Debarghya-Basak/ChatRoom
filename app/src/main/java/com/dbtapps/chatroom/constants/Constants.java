@@ -6,6 +6,24 @@ public class Constants {
 
     private static FirebaseUser USERID;
     private static String KEY_PASSWORD;
+    private static String KEY_NAME;
+    private static String KEY_PROFILE_PICTURE;
+
+    public static String getKeyName() {
+        return KEY_NAME;
+    }
+
+    public static void setKeyName(String keyName) {
+        KEY_NAME = keyName;
+    }
+
+    public static String getKeyProfilePicture() {
+        return KEY_PROFILE_PICTURE;
+    }
+
+    public static void setKeyProfilePicture(String keyProfilePicture) {
+        KEY_PROFILE_PICTURE = keyProfilePicture;
+    }
 
     public static FirebaseUser getUSERID() {
         return USERID;
