@@ -1,6 +1,5 @@
 package com.dbtapps.chatroom.activities;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.Activity;
@@ -10,19 +9,12 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.util.Log;
-import android.view.View;
-import android.widget.TextView;
 
 import com.dbtapps.chatroom.R;
-import com.dbtapps.chatroom.authentication.FirebaseAuthentication;
 import com.dbtapps.chatroom.constants.Constants;
 import com.dbtapps.chatroom.databinding.ActivityRegisterPageBinding;
-import com.dbtapps.chatroom.utilities.BitmapStringConvertor;
+import com.dbtapps.chatroom.utilities.BitmapManipulator;
 import com.dbtapps.chatroom.utilities.MakeToast;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.material.button.MaterialButton;
-import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.io.IOException;
@@ -43,8 +35,15 @@ public class RegisterPage extends AppCompatActivity {
 
         context = this;
 
+        defaultProfilePicMaker();
         registerButtonListener();
         profilePicCivListener();
+    }
+
+    private void defaultProfilePicMaker() {
+        Bitmap bitmap = BitmapManipulator.getBitmapFromVectorDrawable(this, R.drawable.default_profile_pic);
+        String profilePic = BitmapManipulator.bitMapToString(bitmap);
+        Constants.setKeyProfilePicture(profilePic);
     }
 
     @Override
@@ -75,7 +74,7 @@ public class RegisterPage extends AppCompatActivity {
 
     private void encodeImageToString(Uri selectedImageUri) throws IOException {
         Bitmap bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), selectedImageUri);
-        String profilePic = BitmapStringConvertor.bitMapToString(bitmap);
+        String profilePic = BitmapManipulator.bitMapToString(bitmap);
         Constants.setKeyProfilePicture(profilePic);
     }
 
