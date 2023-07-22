@@ -39,6 +39,7 @@ public class FirebaseAuthentication {
     private static PhoneAuthProvider.OnVerificationStateChangedCallbacks mCallbacks;
     private static FirebaseAuth mAuth;
     private static int LOGIN_REGISTER_FLAG;
+    private static String phno;
 
     public static void sendOTP(Activity activity, String phoneNumber, TextView appName, MaterialButton button, LottieAnimationView loadingAnimation, int lrFlag){
         LOGIN_REGISTER_FLAG = lrFlag;
@@ -73,13 +74,13 @@ public class FirebaseAuthentication {
 
                 MakeToast.makeToast(activity.getApplicationContext(), "Code sent to your phone number");
                 LoadingAnimationController.animationStop(loadingAnimation);
+                phno = phoneNumber;
 
                 Pair pairs[] = new Pair[2];
                 pairs[0] = new Pair<View,String>(appName, "appNameTransition");
                 pairs[1] = new Pair<View,String>(button, "verifyBtnTransition");
                 ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(activity, pairs);
                 Intent intent = new Intent(activity, OTPVerificationPage.class);
-                intent.putExtra("loginRegisterFlag", LOGIN_REGISTER_FLAG);
                 //intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                 activity.startActivity(intent, options.toBundle());
                 finishActivity(activity);
@@ -113,6 +114,7 @@ public class FirebaseAuthentication {
                 if (task.isSuccessful()) {
                     LoadingAnimationController.animationStop(loadingAnimation);
                     Constants.setUSERID(task.getResult().getUser());
+                    Constants.setKeyPhone(phno);
                     Log.d("Debug", "signInWithCredential:success --> UID : " + Constants.getUSERID().getUid());
                     MakeToast.makeToast(activity.getApplicationContext(), "OTP Verification successful");
                     checkUserRegistered(activity, appName, button);

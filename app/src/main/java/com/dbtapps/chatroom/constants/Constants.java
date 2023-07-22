@@ -5,6 +5,7 @@ import com.google.firebase.auth.FirebaseUser;
 public class Constants {
 
     private static FirebaseUser USERID;
+    private static String KEY_PHONE;
     private static String KEY_PASSWORD;
     private static String KEY_NAME;
     private static String KEY_PROFILE_PICTURE;
@@ -41,6 +42,11 @@ public class Constants {
         KEY_PASSWORD = keyPassword;
     }
 
+    public static String getKeyPhone() {
+        return KEY_PHONE;
+    }
 
-
+    public static void setKeyPhone(String keyPhone) {
+        KEY_PHONE = keyPhone;
+    }
 }

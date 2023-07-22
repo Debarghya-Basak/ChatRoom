@@ -86,13 +86,16 @@ public class RegisterPage extends AppCompatActivity {
             userData.put("name", binding.nameEt.getText().toString());
             userData.put("password", binding.passwordEt.getText().toString());
             userData.put("profile_picture", Constants.getKeyProfilePicture());
+            userData.put("phone_number", Constants.getKeyPhone());
+            userData.put("account_active_status", "false");
             FirebaseFirestore db = FirebaseFirestore.getInstance();
             db.collection("users")
                     .document(Constants.getUSERID().getUid())
                     .set(userData)
                     .addOnSuccessListener(aVoid -> {
-                        MakeToast.makeToast(this, "User registered successfully");
+                        MakeToast.makeToast(this, "User registered successfully. Please login once more.");
                         Log.d("Debug", "User Data added");
+                        finish();
                     })
                     .addOnFailureListener(exception -> {
                         MakeToast.makeToast(this, "Registration failed : " + exception.getLocalizedMessage());

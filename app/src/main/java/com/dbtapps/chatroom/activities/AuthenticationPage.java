@@ -9,11 +9,16 @@ import android.app.ActivityOptions;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.util.Log;
 import android.util.Pair;
 import android.view.View;
 
 import com.dbtapps.chatroom.databinding.ActivityAuthenticationPageBinding;
+import com.dbtapps.chatroom.token.TokenRegistration;
 import com.dbtapps.chatroom.utilities.PermissionManager;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.messaging.FirebaseMessaging;
+import com.google.firebase.messaging.FirebaseMessagingService;
 
 public class AuthenticationPage extends AppCompatActivity {
 
@@ -30,13 +35,19 @@ public class AuthenticationPage extends AppCompatActivity {
         loginButtonListener();
         registerButtonListener();
         PermissionManager.permissionManager(this);
+
+        FirebaseMessaging.getInstance().getToken().addOnSuccessListener(new OnSuccessListener<String>() {
+            @Override
+            public void onSuccess(String s) {
+                String token = s;
+                Log.d("Debug", "Token : " + token);
+            }
+        });
     }
 
     private void loginButtonListener() {
 
-        binding.loginBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+        binding.loginBtn.setOnClickListener(v -> {
                 Pair pairs[] = new Pair[2];
                 pairs[0] = new Pair<View,String>(binding.appName, "appNameTransition");
                 pairs[1] = new Pair<View,String>(binding.loginBtn, "sendOTPBtnTransition");
@@ -44,16 +55,13 @@ public class AuthenticationPage extends AppCompatActivity {
                 Intent intent = new Intent(AuthenticationPage.this, OTPSendPage.class);
                 intent.putExtra("LoginRegisterFlag", LOGIN_FLAG);
                 startActivity(intent, options.toBundle());
-            }
         });
 
     }
 
     private void registerButtonListener() {
 
-        binding.registerBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+        binding.registerBtn.setOnClickListener(v -> {
                 Pair pairs[] = new Pair[2];
                 pairs[0] = new Pair<View,String>(binding.appName, "appNameTransition");
                 pairs[1] = new Pair<View,String>(binding.registerBtn, "sendOTPBtnTransition");
@@ -61,7 +69,6 @@ public class AuthenticationPage extends AppCompatActivity {
                 Intent intent = new Intent(AuthenticationPage.this, OTPSendPage.class);
                 intent.putExtra("LoginRegisterFlag", REGISTER_FLAG);
                 startActivity(intent, options.toBundle());
-            }
         });
 
     }

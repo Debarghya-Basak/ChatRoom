@@ -20,41 +20,44 @@
         tools:targetApi="31">
         <activity
             android:name=".activities.TestActivity1"
-            android:exported="true" >
-        </activity>
+            android:exported="false"/>
         <activity
             android:name=".activities.OTPSendPage"
-            android:exported="false" />
+            android:exported="false"/>
         <activity
             android:name=".activities.PasswordVerificationPage"
-            android:exported="false" />
+            android:exported="false"/>
         <activity
             android:name=".activities.OTPVerificationPage"
-            android:exported="false" />
+            android:exported="false"/>
         <activity
             android:name=".activities.RegisterPage"
-            android:exported="false">
-
-        </activity>
+            android:exported="false"/>
         <activity
             android:name=".activities.LoginPage"
-            android:exported="false" />
+            android:exported="false"/>
         <activity
             android:name=".activities.AuthenticationPage"
-            android:exported="false" />
+            android:exported="false"/>
+        <activity
+            android:name=".activities.MainActivity"
+            android:exported="false"/>
         <activity
             android:name=".activities.SplashScreen"
             android:exported="true">
             <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
+                <action android:name="android.intent.action.MAIN"/>
 
-                <category android:name="android.intent.category.LAUNCHER" />
+                <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
-
         </activity>
-        <activity
-            android:name=".activities.MainActivity"
-            android:exported="false" />
+        <service
+            android:name=".token.TokenRegistration"
+            android:exported="false" >
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT"/>
+            </intent-filter>
+        </service>
     </application>
 
 </manifest>

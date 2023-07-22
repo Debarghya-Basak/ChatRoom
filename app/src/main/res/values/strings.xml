@@ -1,4 +1,5 @@
 <resources>
+    <string name="fcmServerKey">AAAAVMaXNT0:APA91bHAKwAH4Y2xpjW81NrJ4qTWX6J_dMMC883B5LDhypSFRz1mz0g2u6JfKpzI-NCXhpuTYwx5G4552TFB17Ccbp94BFCGmuA_JDzssAmIzsEyVQc-e4Jv3TH8iReoVGfJ8fUjVfCU</string>
     <string name="app_name">ChatRoom</string>
     <string name="login">LOGIN</string>
     <string name="register">REGISTER</string>
