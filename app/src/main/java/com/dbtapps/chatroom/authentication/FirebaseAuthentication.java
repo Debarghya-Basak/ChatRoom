@@ -138,6 +138,8 @@ public class FirebaseAuthentication {
                         if(LOGIN_REGISTER_FLAG == 0 && document.exists()) {
                             Log.d("Debug", "DocumentSnapshot data: " + document.getData());
                             Constants.setKeyPassword(document.get("password").toString());
+                            Constants.setKeyName(document.get("name").toString());
+                            Constants.setKeyProfilePicture(document.get("profile_picture").toString());
                             Pair pairs[] = new Pair[2];
                             pairs[0] = new Pair<View, String>(appName, "appNameTransition");
                             pairs[1] = new Pair<View, String>(button, "loginBtnTransition");

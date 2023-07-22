@@ -3,22 +3,20 @@ package com.dbtapps.chatroom.activities;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.Activity;
+import android.graphics.Bitmap;
 import android.os.Bundle;
-import android.view.View;
-import android.widget.TextView;
-import android.widget.Toast;
 
-import com.dbtapps.chatroom.R;
 import com.dbtapps.chatroom.constants.Constants;
 import com.dbtapps.chatroom.databinding.ActivityLoginPageBinding;
+import com.dbtapps.chatroom.utilities.BitmapManipulator;
 import com.dbtapps.chatroom.utilities.MakeToast;
-import com.google.android.material.button.MaterialButton;
-import com.google.android.material.textfield.TextInputEditText;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 public class LoginPage extends AppCompatActivity {
 
     private ActivityLoginPageBinding binding;
     Activity context;
+    FirebaseFirestore db;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,8 +25,20 @@ public class LoginPage extends AppCompatActivity {
         setContentView(binding.getRoot());
 
         context = this;
+        db = FirebaseFirestore.getInstance();
 
         loginBtnListener();
+        profilePicLoader();
+        userNameLoader();
+    }
+
+    private void userNameLoader() {
+        binding.userNameTv.setText(Constants.getKeyName());
+    }
+
+    private void profilePicLoader() {
+        Bitmap bitmap = BitmapManipulator.stringToBitMap(Constants.getKeyProfilePicture());
+        binding.profilePicCiv.setImageBitmap(bitmap);
     }
 
     private void loginBtnListener() {
