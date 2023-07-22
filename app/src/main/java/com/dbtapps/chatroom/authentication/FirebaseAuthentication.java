@@ -112,7 +112,7 @@ public class FirebaseAuthentication {
             .addOnCompleteListener(task -> {
                 if (task.isSuccessful()) {
                     LoadingAnimationController.animationStop(loadingAnimation);
-                    Constants.USERID = task.getResult().getUser();
+                    Constants.setUSERID(task.getResult().getUser());
                     Log.d("Debug", "signInWithCredential:success");
                     MakeToast.makeToast(activity.getApplicationContext(), "OTP Verification successful");
                     checkUserRegistered(activity, appName, button);
@@ -129,6 +129,7 @@ public class FirebaseAuthentication {
 
     private static void checkUserRegistered(Activity activity,TextView appName, MaterialButton button) {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
+        //TODO: change .document("test") to .document(Constants.USERID.getUid())
         db.collection("users")
                 .document("test")
                 .get()
@@ -137,6 +138,7 @@ public class FirebaseAuthentication {
                         DocumentSnapshot document = task.getResult();
                         if(LOGIN_REGISTER_FLAG == 0 && document.exists()) {
                             Log.d("Debug", "DocumentSnapshot data: " + document.getData());
+                            Constants.setKeyPassword(document.get("password").toString());
                             Pair pairs[] = new Pair[2];
                             pairs[0] = new Pair<View, String>(appName, "appNameTransition");
                             pairs[1] = new Pair<View, String>(button, "loginBtnTransition");

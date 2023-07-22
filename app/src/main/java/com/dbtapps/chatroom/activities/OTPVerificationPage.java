@@ -26,6 +26,7 @@ public class OTPVerificationPage extends AppCompatActivity {
 
     private void verifyBtnListener() {
         binding.otpVerifyBtn.setOnClickListener(v -> {
+            //TODO: Add checks for edit text
                 FirebaseAuthentication.verifyOTP(activity, binding.otpVerifyEt.getText().toString(), binding.appName, binding.loadingAnimation,binding.otpVerifyBtn);
         });
     }
