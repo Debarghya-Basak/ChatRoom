@@ -5,23 +5,23 @@ import android.os.Bundle;
 import android.view.Menu;
 
 import com.dbtapps.chatroom.R;
+import com.dbtapps.chatroom.databinding.ActivityMainBinding;
 import com.google.android.material.appbar.MaterialToolbar;
 
 public class MainActivity extends AppCompatActivity {
 
-    MaterialToolbar actionBar;
+    ActivityMainBinding binding;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        binding = ActivityMainBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
 
-        actionBar = findViewById(R.id.action_bar);
-        setSupportActionBar(actionBar);
+        setSupportActionBar(binding.actionBar);
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-
         getMenuInflater().inflate(R.menu.action_bar, menu);
         return true;
     }

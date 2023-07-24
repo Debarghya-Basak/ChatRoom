@@ -3,10 +3,10 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"
-        android:maxSdkVersion="32"/>
+    <uses-permission
+        android:name="android.permission.READ_EXTERNAL_STORAGE"
+        android:maxSdkVersion="32" />
     <uses-permission android:name="android.permission.READ_MEDIA_IMAGES" />
-
 
     <application
         android:allowBackup="true"
@@ -19,44 +19,54 @@
         android:theme="@style/Theme.ChatRoom"
         tools:targetApi="31">
         <activity
+            android:name=".activities.TestActivity2"
+            android:exported="true" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
             android:name=".activities.TestActivity1"
-            android:exported="false"/>
+            android:exported="false" />
         <activity
             android:name=".activities.OTPSendPage"
-            android:exported="false"/>
+            android:exported="false" />
         <activity
             android:name=".activities.PasswordVerificationPage"
-            android:exported="false"/>
+            android:exported="false" />
         <activity
             android:name=".activities.OTPVerificationPage"
-            android:exported="false"/>
+            android:exported="false" />
         <activity
             android:name=".activities.RegisterPage"
-            android:exported="false"/>
+            android:exported="false" />
         <activity
             android:name=".activities.LoginPage"
-            android:exported="false"/>
+            android:exported="false" />
         <activity
             android:name=".activities.AuthenticationPage"
-            android:exported="false"/>
+            android:exported="false" />
         <activity
             android:name=".activities.MainActivity"
-            android:exported="false"/>
+            android:exported="false" />
         <activity
             android:name=".activities.SplashScreen"
             android:exported="true">
             <intent-filter>
-                <action android:name="android.intent.action.MAIN"/>
+                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER"/>
+                <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
         <service
             android:name=".token.TokenRegistration"
             android:enabled="true"
-            android:exported="true" >
+            android:exported="true">
             <intent-filter>
-                <action android:name="com.google.firebase.MESSAGING_EVENT"/>
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>
         </service>
     </application>
