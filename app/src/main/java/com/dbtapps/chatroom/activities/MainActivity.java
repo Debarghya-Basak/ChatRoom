@@ -1,12 +1,21 @@
 package com.dbtapps.chatroom.activities;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.FragmentActivity;
+import androidx.viewpager2.adapter.FragmentStateAdapter;
+import androidx.viewpager2.widget.ViewPager2;
+
 import android.os.Bundle;
+import android.view.DragEvent;
 import android.view.Menu;
+import android.view.MotionEvent;
+import android.view.View;
 
 import com.dbtapps.chatroom.R;
 import com.dbtapps.chatroom.databinding.ActivityMainBinding;
+import com.dbtapps.chatroom.fragments.FragmentAdapter;
 import com.google.android.material.appbar.MaterialToolbar;
+import com.google.android.material.tabs.TabLayout;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -18,6 +27,63 @@ public class MainActivity extends AppCompatActivity {
         setContentView(binding.getRoot());
 
         setSupportActionBar(binding.actionBar);
+        setFragments();
+        startViewPagerListener();
+        startTabChangeListener();
+    }
+
+    private void startTabChangeListener() {
+        binding.tabsTl.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+            @Override
+            public void onTabSelected(TabLayout.Tab tab) {
+                binding.mainFragmentVp2.setCurrentItem(tab.getPosition(), true);
+            }
+
+            @Override
+            public void onTabUnselected(TabLayout.Tab tab) {
+
+            }
+
+            @Override
+            public void onTabReselected(TabLayout.Tab tab) {
+
+            }
+        });
+    }
+
+    private void startViewPagerListener() {
+        binding.mainFragmentVp2.registerOnPageChangeCallback(new ViewPager2.OnPageChangeCallback() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+                super.onPageScrolled(position, positionOffset, positionOffsetPixels);
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+                super.onPageSelected(position);
+                binding.tabsTl.getTabAt(position).select();
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+                super.onPageScrollStateChanged(state);
+            }
+        });
+    }
+
+
+//                binding.mainFragmentVp2.setOnDragListener(new View.OnDragListener() {
+//                    @Override
+//                    public boolean onDrag(View v, DragEvent event) {
+//                        binding.tabsTl.getTabAt(binding.mainFragmentVp2.getCurrentItem()).select();
+//                        return false;
+//                    }
+//                });
+//    }
+
+    private void setFragments() {
+        FragmentStateAdapter adapter = new FragmentAdapter(this);
+        binding.mainFragmentVp2.setAdapter(adapter);
     }
 
     @Override

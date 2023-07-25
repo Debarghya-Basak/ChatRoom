@@ -11,6 +11,16 @@ public class Constants {
     private static String KEY_NAME;
     private static String KEY_PROFILE_PICTURE;
 
+    public static int getMainPageFragmentCount() {
+        return MAIN_PAGE_FRAGMENT_COUNT;
+    }
+
+    public static void setMainPageFragmentCount(int mainPageFragmentCount) {
+        MAIN_PAGE_FRAGMENT_COUNT = mainPageFragmentCount;
+    }
+
+    private static int MAIN_PAGE_FRAGMENT_COUNT = 3;
+
     public static String getKeyToken() { return KEY_TOKEN; }
 
     public static void setKeyToken(String keyToken) { KEY_TOKEN = keyToken; }
