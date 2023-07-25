@@ -4,6 +4,14 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <item android:id="@+id/menu_navigation_drawer" android:icon="@drawable/menu_navigation_drawer" app:showAsAction="always"
-        android:title="MENU" android:iconTint="@color/white"/>
+        android:title="MENU" android:iconTint="@color/white">
+
+        <menu>
+
+            <item android:id="@+id/settings" android:title="hi" app:showAsAction="never"/>
+
+        </menu>
+
+    </item>
 
 </menu>
