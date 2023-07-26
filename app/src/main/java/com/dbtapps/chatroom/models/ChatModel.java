@@ -13,7 +13,4 @@ public class ChatModel {
         this.lastText = lastText;
         this.userProfilePicture = userProfilePicture;
     }
-
-
-
 }

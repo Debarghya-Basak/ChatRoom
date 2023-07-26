@@ -69,14 +69,14 @@ public class ChatFragment extends Fragment {
                             Log.d("Debug" , "ChatFragment : " + d.get("user_names") + " , " + d.getId());
 
 
-                            chatList.add(new ChatModel(d.getId(), Constants.TEMP_OTHER_USER_ID, "Hello", Constants.TEMP_PROFILE_PIC));
+                            chatList.add(new ChatModel(d.getId(), Constants.TEMP_OTHER_NAME, "Hello", Constants.TEMP_PROFILE_PIC));
 
                         }
 
-                        chatList.add(new ChatModel("Ma", Constants.TEMP_OTHER_USER_ID, "Hello", Constants.TEMP_PROFILE_PIC));
-                        chatList.add(new ChatModel("Debayan", Constants.TEMP_OTHER_USER_ID, "Hello", Constants.TEMP_PROFILE_PIC));
-                        chatList.add(new ChatModel("Baba", Constants.TEMP_OTHER_USER_ID, "Hello", Constants.TEMP_PROFILE_PIC));
-                        chatList.add(new ChatModel("Debarghya", Constants.TEMP_OTHER_USER_ID, "Hello", Constants.TEMP_PROFILE_PIC));
+                        chatList.add(new ChatModel(Constants.TEMP_OTHER_USER_ID, "Ma", "Hello", Constants.TEMP_PROFILE_PIC));
+                        chatList.add(new ChatModel(Constants.TEMP_OTHER_USER_ID, "Debayan", "Hello", Constants.TEMP_PROFILE_PIC));
+                        chatList.add(new ChatModel(Constants.TEMP_OTHER_USER_ID, "Baba", "Hello", Constants.TEMP_PROFILE_PIC));
+                        chatList.add(new ChatModel(Constants.TEMP_OTHER_USER_ID, "Debarghya", "Hello", Constants.TEMP_PROFILE_PIC));
 
                         ChatFragmentRecyclerViewAdapter adapter = new ChatFragmentRecyclerViewAdapter(getContext(),chatList);
                         chatRv.setAdapter(adapter);
