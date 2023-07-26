@@ -82,6 +82,7 @@ public class RegisterPage extends AppCompatActivity {
     private void registerButtonListener() {
         binding.registerBtn.setOnClickListener(v -> {
             //TODO: Add checks for edit text
+            Log.d("Debug", "RegisterPage : " + Constants.getKeyUserid());
             Map<String, Object> userData = new HashMap<>();
             userData.put("name", binding.nameEt.getText().toString());
             userData.put("password", binding.passwordEt.getText().toString());
@@ -89,7 +90,7 @@ public class RegisterPage extends AppCompatActivity {
             userData.put("phone_number", Constants.getKeyPhone());
             FirebaseFirestore db = FirebaseFirestore.getInstance();
             db.collection("users")
-                    .document(Constants.getUSERID().getUid())
+                    .document(Constants.getKeyUserid())
                     .set(userData)
                     .addOnSuccessListener(aVoid -> {
                         MakeToast.makeToast(this, "User registered successfully. Please login once more.");

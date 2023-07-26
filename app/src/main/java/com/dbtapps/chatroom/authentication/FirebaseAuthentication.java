@@ -3,7 +3,6 @@ package com.dbtapps.chatroom.authentication;
 import android.app.Activity;
 import android.app.ActivityOptions;
 import android.content.Intent;
-import android.os.Handler;
 import android.util.Log;
 import android.util.Pair;
 import android.view.View;
@@ -115,9 +114,9 @@ public class FirebaseAuthentication {
             .addOnCompleteListener(task -> {
                 if (task.isSuccessful()) {
                     LoadingAnimationController.animationStop(loadingAnimation);
-                    Constants.setUSERID(task.getResult().getUser());
+                    Constants.setKeyUserid(task.getResult().getUser().getUid());
                     Constants.setKeyPhone(phno);
-                    Log.d("Debug", "signInWithCredential:success --> UID : " + Constants.getUSERID().getUid());
+                    Log.d("Debug", "signInWithCredential:success --> UID : " + Constants.getKeyUserid());
                     MakeToast.makeToast(activity.getApplicationContext(), "OTP Verification successful");
                     checkUserRegistered(activity, appName, button);
                 } else {
@@ -135,7 +134,7 @@ public class FirebaseAuthentication {
     private static void checkUserRegistered(Activity activity,TextView appName, MaterialButton button) {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         db.collection("users")
-                .document(Constants.getUSERID().getUid())
+                .document(Constants.getKeyUserid())
                 .get()
                 .addOnCompleteListener(task -> {
                     if (task.isSuccessful()) {

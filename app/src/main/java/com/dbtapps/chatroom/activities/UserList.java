@@ -6,11 +6,11 @@ import android.os.Bundle;
 
 import com.dbtapps.chatroom.R;
 
-public class PasswordVerificationPage extends AppCompatActivity {
+public class UserList extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_password_verification_page);
+        setContentView(R.layout.activity_user_list);
     }
 }

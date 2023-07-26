@@ -1,15 +1,18 @@
 package com.dbtapps.chatroom.activities;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.viewpager2.adapter.FragmentStateAdapter;
 import androidx.viewpager2.widget.ViewPager2;
 
 import android.os.Bundle;
 import android.view.Menu;
+import android.view.MenuItem;
 
 import com.dbtapps.chatroom.R;
 import com.dbtapps.chatroom.databinding.ActivityHomeBinding;
-import com.dbtapps.chatroom.fragments.FragmentAdapter;
+import com.dbtapps.chatroom.adapters.FragmentAdapter;
+import com.dbtapps.chatroom.utilities.MakeToast;
 import com.google.android.material.tabs.TabLayout;
 
 public class HomePage extends AppCompatActivity {
@@ -75,5 +78,16 @@ public class HomePage extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.action_bar, menu);
         return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        switch (item.getTitle().toString()){
+            case "Sign Out":
+                MakeToast.makeToast(this, "Signing out");
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 }

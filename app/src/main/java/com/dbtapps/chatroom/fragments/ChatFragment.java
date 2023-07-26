@@ -1,66 +1,79 @@
 package com.dbtapps.chatroom.fragments;
 
+import android.app.ActivityOptions;
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.dbtapps.chatroom.R;
+import com.dbtapps.chatroom.activities.UserList;
+import com.dbtapps.chatroom.constants.Constants;
+import com.dbtapps.chatroom.utilities.MakeToast;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link ChatFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
 public class ChatFragment extends Fragment {
 
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
-
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
-
-    public ChatFragment() {
-        // Required empty public constructor
-    }
-
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment ChatFragment.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static ChatFragment newInstance(String param1, String param2) {
-        ChatFragment fragment = new ChatFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
-    }
+    private FloatingActionButton fab;
+    private RecyclerView chatRv;
+    private View view;
+    FirebaseFirestore db;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
+
+        db = FirebaseFirestore.getInstance();
+
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_chat, container, false);
+
+        view = inflater.inflate(R.layout.fragment_chat, container, false);
+
+        fab = view.findViewById(R.id.floatingActionBarFab);
+        chatRv = view.findViewById(R.id.chatContainerRv);
+
+        setFabListener();
+        loadChatData();
+
+        return view;
+    }
+
+    private void loadChatData() {
+
+        Log.d("Debug", "ChatFragment : " + Constants.getKeyUserid());
+        db.collection("chats")
+                .whereArrayContains("user_names", Constants.getKeyUserid())
+                .get()
+                .addOnSuccessListener(queryDocumentSnapshots -> {
+                    if(!queryDocumentSnapshots.isEmpty()){
+                        for(DocumentSnapshot d : queryDocumentSnapshots.getDocuments()){
+                            Log.d("Debug" , "ChatFragment : " + d.get("user_names") + " , " + d.getId());
+                        }
+                    }
+                    else{
+                        Log.d("Debug" , "ChatFragment : nothing");
+                    }
+                });
+    }
+
+    private void setFabListener() {
+        fab.setOnClickListener(v -> {
+            MakeToast.makeToast(getContext(), "Clicked");
+            ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(getActivity());
+            Intent intent = new Intent(getActivity(), UserList.class);
+            startActivity(intent, options.toBundle());
+        });
     }
 }

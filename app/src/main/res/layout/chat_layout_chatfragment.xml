@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="80sp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:orientation="horizontal">
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/chatUserProfilePicCiv"
+            android:layout_width="70sp"
+            android:layout_height="match_parent"
+            android:layout_margin="10sp"
+
+            android:src="@drawable/default_profile_pic"
+            app:civ_border_width="2dp"
+            app:civ_border_color="#FFFFFFFF"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="5sp"
+
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/chatUserNameTv"
+                android:layout_width="wrap_content"
+                android:layout_height="30sp"
+
+                android:text="DBasak"
+
+                style="@style/ChatFragmentUserNameTextStyle20"/>
+
+            <TextView
+                android:id="@+id/chatUserLastMessageTv"
+                android:layout_width="wrap_content"
+                android:layout_height="30sp"
+
+                android:text="Hi how are you"
+
+                style="@style/ChatFragmentChatTextStyle10"/>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

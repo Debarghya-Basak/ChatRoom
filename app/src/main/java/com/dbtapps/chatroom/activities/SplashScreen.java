@@ -1,7 +1,6 @@
 package com.dbtapps.chatroom.activities;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.ActivityCompat;
 
 import android.app.Activity;
 import android.app.ActivityOptions;
@@ -15,6 +14,8 @@ import android.view.View;
 import com.dbtapps.chatroom.constants.Constants;
 import com.dbtapps.chatroom.databinding.ActivitySplashScreenBinding;
 import com.dbtapps.chatroom.utilities.FinishCurrentActivity;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.messaging.FirebaseMessaging;
 
@@ -67,6 +68,11 @@ public class SplashScreen extends AppCompatActivity {
                             }
                             else{
                                 Log.d("Debug", "User is logged in");
+
+                                for(DocumentSnapshot d : queryDocumentSnapshots.getDocuments()){
+                                    Log.d("Debug", "SplashScreen : " + d.getId());
+                                    Constants.setKeyUserid(d.getId());
+                                }
                                 ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(SplashScreen.this);
                                 Intent intent = new Intent(SplashScreen.this, HomePage.class);
                                 startActivity(intent, options.toBundle());

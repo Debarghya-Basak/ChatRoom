@@ -7,8 +7,6 @@ import android.app.ActivityOptions;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
-import android.util.Pair;
-import android.view.View;
 
 import com.dbtapps.chatroom.constants.Constants;
 import com.dbtapps.chatroom.databinding.ActivityLoginPageBinding;
@@ -60,9 +58,8 @@ public class LoginPage extends AppCompatActivity {
                     userData.put("phone_number", Constants.getKeyPhone());
                     userData.put("profile_picture", Constants.getKeyProfilePicture());
                     userData.put("token", Constants.getKeyToken());
-
                     db.collection("users")
-                            .document(Constants.getUSERID().getUid())
+                            .document(Constants.getKeyUserid())
                             .set(userData);
 
                     MakeToast.makeToast(getApplicationContext(), "LOGIN successfull. Token inserted");

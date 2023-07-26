@@ -1,17 +1,24 @@
 package com.dbtapps.chatroom.constants;
 
-import android.app.Activity;
-
 import com.google.firebase.auth.FirebaseUser;
 
 public class Constants {
 
     private static String KEY_TOKEN;
-    private static FirebaseUser USERID;
+    private static FirebaseUser KEY_USER;
+    private static String KEY_USERID;
     private static String KEY_PHONE;
     private static String KEY_PASSWORD;
     private static String KEY_NAME;
     private static String KEY_PROFILE_PICTURE;
+
+    public static String getKeyUserid() {
+        return KEY_USERID;
+    }
+
+    public static void setKeyUserid(String keyUserid) {
+        KEY_USERID = keyUserid;
+    }
 
     public static int getMainPageFragmentCount() {
         return MAIN_PAGE_FRAGMENT_COUNT;
@@ -41,12 +48,12 @@ public class Constants {
 
     public static void setKeyProfilePicture(String keyProfilePicture) { KEY_PROFILE_PICTURE = keyProfilePicture; }
 
-    public static FirebaseUser getUSERID() {
-        return USERID;
+    public static FirebaseUser getKeyUser() {
+        return KEY_USER;
     }
 
-    public static void setUSERID(FirebaseUser USER_ID) {
-        USERID = USER_ID;
+    public static void setKeyUser(FirebaseUser USER_ID) {
+        KEY_USER = USER_ID;
     }
 
     public static String getKeyPassword() {
