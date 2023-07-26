@@ -8,17 +8,17 @@ import android.os.Bundle;
 import android.view.Menu;
 
 import com.dbtapps.chatroom.R;
-import com.dbtapps.chatroom.databinding.ActivityMainBinding;
+import com.dbtapps.chatroom.databinding.ActivityHomeBinding;
 import com.dbtapps.chatroom.fragments.FragmentAdapter;
 import com.google.android.material.tabs.TabLayout;
 
 public class HomePage extends AppCompatActivity {
 
-    ActivityMainBinding binding;
+    ActivityHomeBinding binding;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        binding = ActivityMainBinding.inflate(getLayoutInflater());
+        binding = ActivityHomeBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
         setSupportActionBar(binding.actionBar);

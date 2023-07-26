@@ -20,6 +20,11 @@
 
     <style name="Theme.ChatRoom" parent="Base.Theme.ChatRoom"/>
 
+    <style name="floatingActionButton" parent="ShapeAppearanceOverlay.Material3.FloatingActionButton">
+        <item name="backgroundTint">@color/white</item>
+        <item name="rippleColor">@color/grey</item>
+    </style>
+
     <style name="AppNameStyle30" parent="Widget.Material3.Toolbar">
         <item name="fontFamily">@font/seaweed_script</item>
         <item name="android:textSize">30sp</item>
