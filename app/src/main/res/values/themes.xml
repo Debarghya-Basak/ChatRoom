@@ -20,7 +20,7 @@
 
     <style name="Theme.ChatRoom" parent="Base.Theme.ChatRoom"/>
 
-    <style name="floatingActionButton" parent="ShapeAppearanceOverlay.Material3.FloatingActionButton">
+    <style name="floatingActionButton" parent="Widget.MaterialComponents.FloatingActionButton">
         <item name="backgroundTint">@color/white</item>
         <item name="rippleColor">@color/grey</item>
     </style>
