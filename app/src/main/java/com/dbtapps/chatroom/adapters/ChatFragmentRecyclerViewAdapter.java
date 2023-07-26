@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.dbtapps.chatroom.R;
 import com.dbtapps.chatroom.models.ChatModel;
+import com.dbtapps.chatroom.utilities.BitmapManipulator;
 
 import org.w3c.dom.Text;
 
@@ -40,6 +41,9 @@ public class ChatFragmentRecyclerViewAdapter extends RecyclerView.Adapter<ChatFr
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+        holder.chatUserProfilePicCiv.setImageBitmap(BitmapManipulator.stringToBitMap(chatList.get(position).userProfilePicture));
+        holder.chatUserNameTv.setText(chatList.get(position).userName);
+        holder.chatUserLastMessageTv.setText(chatList.get(position).lastText);
 
     }
 
