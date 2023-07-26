@@ -67,8 +67,9 @@ public class SplashScreen extends AppCompatActivity {
                             }
                             else{
                                 Log.d("Debug", "User is logged in");
+                                ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(SplashScreen.this);
                                 Intent intent = new Intent(SplashScreen.this, HomePage.class);
-                                startActivity(intent);
+                                startActivity(intent, options.toBundle());
                                 FinishCurrentActivity.finish(activity);
                             }
                         });

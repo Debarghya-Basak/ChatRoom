@@ -3,9 +3,12 @@ package com.dbtapps.chatroom.activities;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.Activity;
+import android.app.ActivityOptions;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.util.Pair;
+import android.view.View;
 
 import com.dbtapps.chatroom.constants.Constants;
 import com.dbtapps.chatroom.databinding.ActivityLoginPageBinding;
@@ -68,8 +71,9 @@ public class LoginPage extends AppCompatActivity {
                     MakeToast.makeToast(getApplicationContext(), "LOGIN successfull. Token not inserted");
                 }
 
+                ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(LoginPage.this);
                 Intent intent = new Intent(LoginPage.this, HomePage.class);
-                startActivity(intent);
+                startActivity(intent, options.toBundle());
                 FinishCurrentActivity.finish(activity);
 
             }
