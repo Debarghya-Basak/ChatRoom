@@ -1,23 +1,18 @@
 package com.dbtapps.chatroom.activities;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.FragmentActivity;
 import androidx.viewpager2.adapter.FragmentStateAdapter;
 import androidx.viewpager2.widget.ViewPager2;
 
 import android.os.Bundle;
-import android.view.DragEvent;
 import android.view.Menu;
-import android.view.MotionEvent;
-import android.view.View;
 
 import com.dbtapps.chatroom.R;
 import com.dbtapps.chatroom.databinding.ActivityMainBinding;
 import com.dbtapps.chatroom.fragments.FragmentAdapter;
-import com.google.android.material.appbar.MaterialToolbar;
 import com.google.android.material.tabs.TabLayout;
 
-public class MainActivity extends AppCompatActivity {
+public class HomePage extends AppCompatActivity {
 
     ActivityMainBinding binding;
     @Override
@@ -70,16 +65,6 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }
-
-
-//                binding.mainFragmentVp2.setOnDragListener(new View.OnDragListener() {
-//                    @Override
-//                    public boolean onDrag(View v, DragEvent event) {
-//                        binding.tabsTl.getTabAt(binding.mainFragmentVp2.getCurrentItem()).select();
-//                        return false;
-//                    }
-//                });
-//    }
 
     private void setFragments() {
         FragmentStateAdapter adapter = new FragmentAdapter(this);

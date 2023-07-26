@@ -30,4 +30,5 @@ public class OTPVerificationPage extends AppCompatActivity {
                 FirebaseAuthentication.verifyOTP(activity, binding.otpVerifyEt.getText().toString(), binding.appName, binding.loadingAnimation,binding.otpVerifyBtn);
         });
     }
+
 }

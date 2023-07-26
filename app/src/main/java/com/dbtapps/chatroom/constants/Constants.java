@@ -1,5 +1,7 @@
 package com.dbtapps.chatroom.constants;
 
+import android.app.Activity;
+
 import com.google.firebase.auth.FirebaseUser;
 
 public class Constants {

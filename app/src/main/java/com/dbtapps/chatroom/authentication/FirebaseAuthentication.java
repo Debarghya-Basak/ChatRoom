@@ -16,6 +16,7 @@ import com.dbtapps.chatroom.activities.LoginPage;
 import com.dbtapps.chatroom.activities.OTPVerificationPage;
 import com.dbtapps.chatroom.activities.RegisterPage;
 import com.dbtapps.chatroom.constants.Constants;
+import com.dbtapps.chatroom.utilities.FinishCurrentActivity;
 import com.dbtapps.chatroom.utilities.LoadingAnimationController;
 import com.dbtapps.chatroom.utilities.MakeToast;
 import com.google.android.material.button.MaterialButton;
@@ -83,7 +84,8 @@ public class FirebaseAuthentication {
                 Intent intent = new Intent(activity, OTPVerificationPage.class);
                 //intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                 activity.startActivity(intent, options.toBundle());
-                finishActivity(activity);
+                //finishActivity(activity);
+                FinishCurrentActivity.finish(activity);
 
                 mVerificationId = verificationId;
                 mResendToken = token;
@@ -123,7 +125,8 @@ public class FirebaseAuthentication {
                     Log.d("Debug", "signInWithCredential:failure", task.getException());
                     if (task.getException() instanceof FirebaseAuthInvalidCredentialsException) {
                         MakeToast.makeToast(activity.getApplicationContext(), "Wrong OTP Entered");
-                        finishActivity(activity);
+                        //finishActivity(activity);
+                        FinishCurrentActivity.finish(activity);
                     }
                 }
             });
@@ -149,7 +152,9 @@ public class FirebaseAuthentication {
                             Intent intent = new Intent(activity, LoginPage.class);
                             //intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                             activity.startActivity(intent, options.toBundle());
-                            finishActivity(activity);
+                            //finishActivity(activity);
+                            FinishCurrentActivity.finish(activity);
+
                         }
                         else if(LOGIN_REGISTER_FLAG == 1 && !document.exists()){
 
@@ -160,25 +165,25 @@ public class FirebaseAuthentication {
                             Intent intent = new Intent(activity, RegisterPage.class);
                             //intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                             activity.startActivity(intent, options.toBundle());
-                            finishActivity(activity);
+                            //finishActivity(activity);
+                            FinishCurrentActivity.finish(activity);
+
                         }
                         else if(LOGIN_REGISTER_FLAG == 0 && !document.exists()){
                             MakeToast.makeLongToast(activity.getApplicationContext(), "You are not registered. Please register first to Login.");
-                            finishActivity(activity);
+                            //finishActivity(activity);
+                            FinishCurrentActivity.finish(activity);
+
                         }
                         else if(LOGIN_REGISTER_FLAG == 1 && document.exists()){
                             MakeToast.makeLongToast(activity.getApplicationContext(), "You are already registered. You can login.");
-                            finishActivity(activity);
+                            //finishActivity(activity);
+                            FinishCurrentActivity.finish(activity);
                         }
 
                     }
                 });
     }
 
-    private static void finishActivity(Activity activity){
-        new Handler().postDelayed(() -> {
-            activity.finish();
-        },1000);
-    }
 
 }

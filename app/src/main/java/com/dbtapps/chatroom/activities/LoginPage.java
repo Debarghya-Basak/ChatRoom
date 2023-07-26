@@ -10,6 +10,7 @@ import android.os.Bundle;
 import com.dbtapps.chatroom.constants.Constants;
 import com.dbtapps.chatroom.databinding.ActivityLoginPageBinding;
 import com.dbtapps.chatroom.utilities.BitmapManipulator;
+import com.dbtapps.chatroom.utilities.FinishCurrentActivity;
 import com.dbtapps.chatroom.utilities.MakeToast;
 import com.google.firebase.firestore.FirebaseFirestore;
 
@@ -19,7 +20,7 @@ import java.util.Map;
 public class LoginPage extends AppCompatActivity {
 
     private ActivityLoginPageBinding binding;
-    Activity context;
+    Activity activity;
     FirebaseFirestore db;
 
     @Override
@@ -28,7 +29,7 @@ public class LoginPage extends AppCompatActivity {
         binding = ActivityLoginPageBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        context = this;
+        activity = this;
         db = FirebaseFirestore.getInstance();
 
         loginBtnListener();
@@ -67,8 +68,9 @@ public class LoginPage extends AppCompatActivity {
                     MakeToast.makeToast(getApplicationContext(), "LOGIN successfull. Token not inserted");
                 }
 
-                Intent intent = new Intent(LoginPage.this, MainActivity.class);
+                Intent intent = new Intent(LoginPage.this, HomePage.class);
                 startActivity(intent);
+                FinishCurrentActivity.finish(activity);
 
             }
             else{

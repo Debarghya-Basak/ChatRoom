@@ -44,7 +44,7 @@
             android:name=".activities.AuthenticationPage"
             android:exported="false" />
         <activity
-            android:name=".activities.MainActivity"
+            android:name=".activities.HomePage"
             android:exported="false" >
         </activity>
         <activity
