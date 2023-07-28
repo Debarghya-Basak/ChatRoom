@@ -22,7 +22,6 @@ public class LoginPage extends AppCompatActivity {
 
     private ActivityLoginPageBinding binding;
     Activity activity;
-    FirebaseFirestore db;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,7 +30,6 @@ public class LoginPage extends AppCompatActivity {
         setContentView(binding.getRoot());
 
         activity = this;
-        db = FirebaseFirestore.getInstance();
 
         loginBtnListener();
         profilePicLoader();
@@ -53,12 +51,12 @@ public class LoginPage extends AppCompatActivity {
             if(binding.passwordEt.getText().toString().equals(Constants.getKeyPassword())){
                 if(binding.signInFlagCb.isChecked()){
                     Map<String, Object> userData = new HashMap<>();
-                    userData.put("name", Constants.getKeyName());
-                    userData.put("password", Constants.getKeyPassword());
-                    userData.put("phone_number", Constants.getKeyPhone());
-                    userData.put("profile_picture", Constants.getKeyProfilePicture());
-                    userData.put("token", Constants.getKeyToken());
-                    db.collection("users")
+                    userData.put(Constants.DB_NAME, Constants.getKeyName());
+                    userData.put(Constants.DB_PASSWORD, Constants.getKeyPassword());
+                    userData.put(Constants.DB_PHONE_NUMBER, Constants.getKeyPhone());
+                    userData.put(Constants.DB_PROFILE_PICTURE, Constants.getKeyProfilePicture());
+                    userData.put(Constants.DB_TOKEN, Constants.getKeyToken());
+                    Constants.db.collection(Constants.DB_USERS)
                             .document(Constants.getKeyUserid())
                             .set(userData);
 

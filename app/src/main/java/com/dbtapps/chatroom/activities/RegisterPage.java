@@ -84,12 +84,12 @@ public class RegisterPage extends AppCompatActivity {
             //TODO: Add checks for edit text
             Log.d("Debug", "RegisterPage : " + Constants.getKeyUserid());
             Map<String, Object> userData = new HashMap<>();
-            userData.put("name", binding.nameEt.getText().toString());
-            userData.put("password", binding.passwordEt.getText().toString());
-            userData.put("profile_picture", Constants.getKeyProfilePicture());
-            userData.put("phone_number", Constants.getKeyPhone());
-            FirebaseFirestore db = FirebaseFirestore.getInstance();
-            db.collection("users")
+            userData.put(Constants.DB_NAME, binding.nameEt.getText().toString());
+            userData.put(Constants.DB_PASSWORD, binding.passwordEt.getText().toString());
+            userData.put(Constants.DB_PROFILE_PICTURE, Constants.getKeyProfilePicture());
+            userData.put(Constants.DB_PHONE_NUMBER, Constants.getKeyPhone());
+
+            Constants.db.collection(Constants.DB_USERS)
                     .document(Constants.getKeyUserid())
                     .set(userData)
                     .addOnSuccessListener(aVoid -> {

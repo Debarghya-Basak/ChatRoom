@@ -21,7 +21,6 @@ import com.google.firebase.messaging.FirebaseMessaging;
 
 public class SplashScreen extends AppCompatActivity {
     private ActivitySplashScreenBinding binding;
-    private FirebaseFirestore db;
     Activity activity;
 
     @Override
@@ -30,7 +29,6 @@ public class SplashScreen extends AppCompatActivity {
         binding = ActivitySplashScreenBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        db = FirebaseFirestore.getInstance();
         activity = this;
 
         tokenManager();
@@ -53,8 +51,8 @@ public class SplashScreen extends AppCompatActivity {
             @Override
             public void run() {
 
-                db.collection("users")
-                        .whereEqualTo("token", Constants.getKeyToken())
+                Constants.db.collection(Constants.DB_USERS)
+                        .whereEqualTo(Constants.DB_TOKEN, Constants.getKeyToken())
                         .get()
                         .addOnSuccessListener(queryDocumentSnapshots -> {
                             if(queryDocumentSnapshots.isEmpty()) {

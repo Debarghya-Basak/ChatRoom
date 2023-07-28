@@ -35,7 +35,6 @@ public class AuthenticationPage extends AppCompatActivity {
     private ActivityAuthenticationPageBinding binding;
     private final int LOGIN_FLAG = 0;
     private final int REGISTER_FLAG = 1;
-    private FirebaseFirestore db;
     private Activity activity;
 
     @Override
@@ -45,7 +44,6 @@ public class AuthenticationPage extends AppCompatActivity {
         setContentView(binding.getRoot());
 
         activity = this;
-        db = FirebaseFirestore.getInstance();
 
         loginButtonListener();
         registerButtonListener();

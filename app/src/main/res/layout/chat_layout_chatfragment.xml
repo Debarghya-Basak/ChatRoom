@@ -2,6 +2,7 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:layout_marginTop="10sp"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <LinearLayout
@@ -10,11 +11,12 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        android:gravity="center_vertical"
         android:orientation="horizontal">
 
         <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/chatUserProfilePicCiv"
-            android:layout_width="70sp"
+            android:layout_width="60sp"
             android:layout_height="match_parent"
             android:layout_margin="10sp"
 
@@ -36,18 +38,14 @@
                 android:layout_width="wrap_content"
                 android:layout_height="30sp"
 
-                android:text="- - -"
-
                 style="@style/ChatFragmentUserNameTextStyle20"/>
 
             <TextView
                 android:id="@+id/chatUserLastMessageTv"
                 android:layout_width="wrap_content"
-                android:layout_height="30sp"
+                android:layout_height="20sp"
 
-                android:text="- - -"
-
-                style="@style/ChatFragmentChatTextStyle10"/>
+                style="@style/ChatFragmentChatTextStyle15"/>
 
         </LinearLayout>
 

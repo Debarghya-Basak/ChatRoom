@@ -132,8 +132,7 @@ public class FirebaseAuthentication {
     }
 
     private static void checkUserRegistered(Activity activity,TextView appName, MaterialButton button) {
-        FirebaseFirestore db = FirebaseFirestore.getInstance();
-        db.collection("users")
+        Constants.db.collection(Constants.DB_USERS)
                 .document(Constants.getKeyUserid())
                 .get()
                 .addOnCompleteListener(task -> {
@@ -141,9 +140,9 @@ public class FirebaseAuthentication {
                         DocumentSnapshot document = task.getResult();
                         if(LOGIN_REGISTER_FLAG == 0 && document.exists()) {
                             Log.d("Debug", "DocumentSnapshot data: " + document.getData());
-                            Constants.setKeyPassword(document.get("password").toString());
-                            Constants.setKeyName(document.get("name").toString());
-                            Constants.setKeyProfilePicture(document.get("profile_picture").toString());
+                            Constants.setKeyPassword(document.get(Constants.DB_PASSWORD).toString());
+                            Constants.setKeyName(document.get(Constants.DB_NAME).toString());
+                            Constants.setKeyProfilePicture(document.get(Constants.DB_PROFILE_PICTURE).toString());
                             Pair pairs[] = new Pair[2];
                             pairs[0] = new Pair<View, String>(appName, "appNameTransition");
                             pairs[1] = new Pair<View, String>(button, "loginBtnTransition");

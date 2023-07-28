@@ -18,6 +18,7 @@ import com.dbtapps.chatroom.R;
 import com.dbtapps.chatroom.activities.UserList;
 import com.dbtapps.chatroom.adapters.ChatFragmentRecyclerViewAdapter;
 import com.dbtapps.chatroom.constants.Constants;
+import com.dbtapps.chatroom.models.ChatLoaderModel;
 import com.dbtapps.chatroom.models.ChatModel;
 import com.dbtapps.chatroom.utilities.MakeToast;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -25,19 +26,18 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 public class ChatFragment extends Fragment {
 
     private FloatingActionButton fab;
     private RecyclerView chatRv;
     private View view;
-    FirebaseFirestore db;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        db = FirebaseFirestore.getInstance();
     }
 
     @Override
@@ -58,27 +58,25 @@ public class ChatFragment extends Fragment {
     private void loadChatData() {
         //TODO: Load Chat Data properly
         Log.d("Debug", "ChatFragment : " + Constants.getKeyUserid());
-        db.collection("chats")
-                .whereArrayContains("user_names", Constants.getKeyUserid())
+
+        ArrayList<ChatLoaderModel> chatIds = new ArrayList<>();
+
+        Constants.db.collection("chats")
+                .whereArrayContains("user_ids", Constants.getKeyUserid())
                 .get()
                 .addOnSuccessListener(queryDocumentSnapshots -> {
                     if(!queryDocumentSnapshots.isEmpty()){
 
-                        ArrayList<ChatModel> chatList = new ArrayList<>();
                         for(DocumentSnapshot d : queryDocumentSnapshots.getDocuments()){
-                            Log.d("Debug" , "ChatFragment : " + d.get("user_names") + " , " + d.getId());
+                            Log.d("Debug" , "ChatFragment : " + d.get("user_ids") + " , " + d.getId());
 
+                            ArrayList<String> chatUserIds = (ArrayList<String>) d.get("user_ids");
+                            HashMap<String, Long> chatPositionInList = (HashMap<String, Long>) d.get("chat_position");
 
-                            chatList.add(new ChatModel(d.getId(), Constants.TEMP_OTHER_NAME, "Hello", Constants.TEMP_PROFILE_PIC));
-
+                            chatIds.add(new ChatLoaderModel(d.getId(), getChatUserId(chatUserIds), chatPositionInList.get(Constants.getKeyUserid())));
                         }
 
-                        chatList.add(new ChatModel(Constants.TEMP_OTHER_USER_ID, "Ma", "Hello", Constants.TEMP_PROFILE_PIC));
-                        chatList.add(new ChatModel(Constants.TEMP_OTHER_USER_ID, "Debayan", "Hello", Constants.TEMP_PROFILE_PIC));
-                        chatList.add(new ChatModel(Constants.TEMP_OTHER_USER_ID, "Baba", "Hello", Constants.TEMP_PROFILE_PIC));
-                        chatList.add(new ChatModel(Constants.TEMP_OTHER_USER_ID, "Debarghya", "Hello", Constants.TEMP_PROFILE_PIC));
-
-                        ChatFragmentRecyclerViewAdapter adapter = new ChatFragmentRecyclerViewAdapter(getContext(),chatList);
+                        ChatFragmentRecyclerViewAdapter adapter = new ChatFragmentRecyclerViewAdapter(getContext(),chatIds);
                         chatRv.setAdapter(adapter);
                         chatRv.setLayoutManager(new LinearLayoutManager(getActivity()));
                     }
@@ -86,6 +84,15 @@ public class ChatFragment extends Fragment {
                         Log.d("Debug" , "ChatFragment : nothing");
                     }
                 });
+
+
+    }
+
+    private String getChatUserId(ArrayList<String> chatUserIds) {
+        if(chatUserIds.get(0).equals(Constants.getKeyUserid()))
+            return chatUserIds.get(1);
+        else
+            return chatUserIds.get(0);
     }
 
     private void setFabListener() {
