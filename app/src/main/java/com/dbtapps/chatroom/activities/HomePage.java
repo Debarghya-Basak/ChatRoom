@@ -17,6 +17,7 @@ import com.dbtapps.chatroom.databinding.ActivityHomeBinding;
 import com.dbtapps.chatroom.adapters.FragmentAdapter;
 import com.dbtapps.chatroom.utilities.FinishCurrentActivity;
 import com.dbtapps.chatroom.utilities.MakeToast;
+import com.dbtapps.chatroom.utilities.PermissionManager;
 import com.google.android.material.tabs.TabLayout;
 
 import java.util.HashMap;
@@ -35,6 +36,8 @@ public class HomePage extends AppCompatActivity {
         setFragments();
         startViewPagerListener();
         startTabChangeListener();
+
+        PermissionManager.permissionManager(this);
     }
 
     private void startTabChangeListener() {

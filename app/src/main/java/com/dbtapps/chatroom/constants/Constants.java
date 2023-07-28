@@ -13,14 +13,16 @@ public class Constants {
     private static String KEY_NAME;
     private static String KEY_PROFILE_PICTURE;
     public static FirebaseFirestore db = FirebaseFirestore.getInstance();
-    public static String DB_USERS = "users";
-    public static String DB_NAME = "name";
-    public static String DB_PHONE_NUMBER = "phone_number";
-    public static String DB_TOKEN = "token";
-    public static String DB_CHATS = "chats";
-    public static String DB_PASSWORD = "password";
-    public static String DB_PROFILE_PICTURE = "profile_picture";
-    public static String DB_LAST_MESSAGE = "last_message";
+    public static final String DB_USERS = "users";
+    public static final String DB_NAME = "name";
+    public static final String DB_PHONE_NUMBER = "phone_number";
+    public static final String DB_TOKEN = "token";
+    public static final String DB_CHATS = "chats";
+    public static final String DB_PASSWORD = "password";
+    public static final String DB_PROFILE_PICTURE = "profile_picture";
+    public static final String DB_LAST_MESSAGE = "last_message";
+    public static final String DB_CHAT_POSITION = "chat_position";
+    public static final String DB_USER_IDS = "user_ids";
 
 
     public static String getKeyUserid() {

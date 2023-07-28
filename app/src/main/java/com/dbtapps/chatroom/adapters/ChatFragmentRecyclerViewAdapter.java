@@ -16,9 +16,6 @@ import com.dbtapps.chatroom.constants.Constants;
 import com.dbtapps.chatroom.models.ChatLoaderModel;
 import com.dbtapps.chatroom.models.ChatModel;
 import com.dbtapps.chatroom.utilities.BitmapManipulator;
-import com.dbtapps.chatroom.utilities.MakeToast;
-
-import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 
@@ -27,12 +24,12 @@ import de.hdodenhof.circleimageview.CircleImageView;
 public class ChatFragmentRecyclerViewAdapter extends RecyclerView.Adapter<ChatFragmentRecyclerViewAdapter.ViewHolder> {
 
     private Context context;
-    ArrayList<ChatLoaderModel> chatIds;
+    ArrayList<ChatLoaderModel> chatAndGroupLoader;
     ArrayList<ChatModel> chatList;
 
-    public ChatFragmentRecyclerViewAdapter(Context context, ArrayList<ChatLoaderModel> chatIds){
+    public ChatFragmentRecyclerViewAdapter(Context context, ArrayList<ChatLoaderModel> chatAndGroupLoader){
         this.context = context;
-        this.chatIds = chatIds;
+        this.chatAndGroupLoader = chatAndGroupLoader;
     }
 
     @NonNull
@@ -47,14 +44,14 @@ public class ChatFragmentRecyclerViewAdapter extends RecyclerView.Adapter<ChatFr
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-//        holder.chatUserProfilePicCiv.setImageBitmap(BitmapManipulator.stringToBitMap(chatIds.get(position).userProfilePicture));
-//        holder.chatUserNameTv.setText(chatIds.get(position).userName);
+//        holder.chatUserProfilePicCiv.setImageBitmap(BitmapManipulator.stringToBitMap(chatAndGroupLoader.get(position).userProfilePicture));
+//        holder.chatUserNameTv.setText(chatAndGroupLoader.get(position).userName);
 //        holder.chatUserLastMessageTv.setText("Temp");
 
         if(TextUtils.isEmpty(holder.chatUserNameTv.getText())){
 
             Constants.db.collection(Constants.DB_CHATS)
-                    .document(chatIds.get(position).chatDocumentId)
+                    .document(chatAndGroupLoader.get(position).chatDocumentId)
                     .get()
                     .addOnSuccessListener(documentSnapshot -> {
                         holder.chatUserLastMessageTv.setText(documentSnapshot.get(Constants.DB_LAST_MESSAGE).toString());
@@ -64,11 +61,11 @@ public class ChatFragmentRecyclerViewAdapter extends RecyclerView.Adapter<ChatFr
                     });
 
             Constants.db.collection(Constants.DB_USERS)
-                    .document(chatIds.get(position).chatUserId)
+                    .document(chatAndGroupLoader.get(position).chatUserId)
                     .get()
                     .addOnSuccessListener(documentSnapshot -> {
                         holder.chatUserNameTv.setText(documentSnapshot.get(Constants.DB_NAME).toString());
-                        holder.chatUserProfilePicCiv.setImageBitmap(BitmapManipulator.stringToBitMap(documentSnapshot.get("profile_picture").toString()));
+                        holder.chatUserProfilePicCiv.setImageBitmap(BitmapManipulator.stringToBitMap(documentSnapshot.get(Constants.DB_PROFILE_PICTURE).toString()));
                     })
                     .addOnFailureListener(e -> {
                         Log.d("Debug", "Failed to load chat");
@@ -78,7 +75,7 @@ public class ChatFragmentRecyclerViewAdapter extends RecyclerView.Adapter<ChatFr
 
     @Override
     public int getItemCount() {
-        return chatIds.size();
+        return chatAndGroupLoader.size();
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder{
