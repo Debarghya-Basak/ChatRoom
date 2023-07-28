@@ -5,15 +5,22 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.viewpager2.adapter.FragmentStateAdapter;
 import androidx.viewpager2.widget.ViewPager2;
 
+import android.app.ActivityOptions;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 
 import com.dbtapps.chatroom.R;
+import com.dbtapps.chatroom.constants.Constants;
 import com.dbtapps.chatroom.databinding.ActivityHomeBinding;
 import com.dbtapps.chatroom.adapters.FragmentAdapter;
+import com.dbtapps.chatroom.utilities.FinishCurrentActivity;
 import com.dbtapps.chatroom.utilities.MakeToast;
 import com.google.android.material.tabs.TabLayout;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class HomePage extends AppCompatActivity {
 
@@ -85,6 +92,21 @@ public class HomePage extends AppCompatActivity {
         switch (item.getTitle().toString()){
             case "Sign Out":
                 MakeToast.makeToast(this, "Signing out");
+                Map<String, Object> userData = new HashMap<>();
+                userData.put(Constants.DB_NAME, Constants.getKeyName());
+                userData.put(Constants.DB_PASSWORD, Constants.getKeyPassword());
+                userData.put(Constants.DB_PHONE_NUMBER, Constants.getKeyPhone());
+                userData.put(Constants.DB_PROFILE_PICTURE, Constants.getKeyProfilePicture());
+
+                Constants.db.collection(Constants.DB_USERS)
+                        .document(Constants.getKeyUserid())
+                        .set(userData)
+                        .addOnSuccessListener(unused -> {
+                            ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(this);
+                            Intent intent = new Intent(HomePage.this, AuthenticationPage.class);
+                            startActivity(intent, options.toBundle());
+                            FinishCurrentActivity.finish(this);
+                        });
                 return true;
             default:
                 return super.onOptionsItemSelected(item);

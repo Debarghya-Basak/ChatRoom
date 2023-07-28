@@ -70,6 +70,11 @@ public class SplashScreen extends AppCompatActivity {
                                 for(DocumentSnapshot d : queryDocumentSnapshots.getDocuments()){
                                     Log.d("Debug", "SplashScreen : " + d.getId());
                                     Constants.setKeyUserid(d.getId());
+                                    Constants.setKeyName(d.get(Constants.DB_NAME).toString());
+                                    Constants.setKeyPassword(d.get(Constants.DB_PASSWORD).toString());
+                                    Constants.setKeyPhone(d.get(Constants.DB_PHONE_NUMBER).toString());
+                                    Constants.setKeyProfilePicture(d.get(Constants.DB_PROFILE_PICTURE).toString());
+
                                 }
                                 ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(SplashScreen.this);
                                 Intent intent = new Intent(SplashScreen.this, HomePage.class);
