@@ -2,6 +2,7 @@ package com.dbtapps.chatroom.activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.usage.ConfigurationStats;
 import android.content.ContentResolver;
 import android.database.Cursor;
 import android.os.Bundle;
@@ -9,11 +10,15 @@ import android.provider.ContactsContract;
 import android.util.Log;
 
 import com.dbtapps.chatroom.R;
+import com.dbtapps.chatroom.constants.Constants;
 import com.dbtapps.chatroom.models.ContactModel;
 import com.dbtapps.chatroom.utilities.PermissionManager;
+import com.google.firebase.firestore.DocumentSnapshot;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashSet;
+import java.util.List;
 
 public class TestActivity2 extends AppCompatActivity {
 
@@ -32,6 +37,7 @@ public class TestActivity2 extends AppCompatActivity {
         PermissionManager.permissionManager(this);
 
         getContactList();
+        compareContactsWithFirebase();
 
     }
 
@@ -63,5 +69,36 @@ public class TestActivity2 extends AppCompatActivity {
         }
     }
 
+    private void compareContactsWithFirebase() {
 
+        ArrayList<String> firebaseContacts = new ArrayList<>();
+
+        Constants.db.collection(Constants.DB_USERS)
+                .orderBy("phone_number")
+                .get()
+                .addOnSuccessListener(queryDocumentSnapshots -> {
+                    for (DocumentSnapshot d : queryDocumentSnapshots.getDocuments()) {
+                        firebaseContacts.add(d.get("phone_number").toString());
+                        Log.d("Debug", d.get("phone_number").toString());
+                    }
+
+                    for (ContactModel contacts : contactModelList) {
+
+                        if (firebaseContacts.contains(contacts.getPhoneNumber())) {
+                            Log.d("Debug", "MATCH CONTACT : " + contacts.getPhoneNumber());
+                            Constants.KEY_USERLIST_PHONENUMBERS.add(contacts.getPhoneNumber());
+                            Log.d("Debug", "Added");
+                        }
+
+                    }
+
+                    for (String c : Constants.KEY_USERLIST_PHONENUMBERS)
+                        Log.d("Debug", "USERLIST : " + c);
+
+
+                })
+                .addOnFailureListener(e -> {
+                    Log.d("Debug", e.getLocalizedMessage());
+                });
+    }
 }

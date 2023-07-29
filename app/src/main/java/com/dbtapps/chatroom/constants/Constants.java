@@ -1,7 +1,12 @@
 package com.dbtapps.chatroom.constants;
 
+import com.dbtapps.chatroom.models.ContactModel;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
+
+import org.checkerframework.checker.units.qual.A;
+
+import java.util.ArrayList;
 
 public class Constants {
 
@@ -12,6 +17,7 @@ public class Constants {
     private static String KEY_PASSWORD;
     private static String KEY_NAME;
     private static String KEY_PROFILE_PICTURE;
+    public static ArrayList<String> KEY_USERLIST_PHONENUMBERS = new ArrayList<>();
     public static FirebaseFirestore db = FirebaseFirestore.getInstance();
     public static final String DB_USERS = "users";
     public static final String DB_NAME = "name";
