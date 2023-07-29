@@ -8,6 +8,7 @@ import androidx.viewpager2.widget.ViewPager2;
 import android.app.ActivityOptions;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
@@ -26,6 +27,8 @@ import java.util.Map;
 public class HomePage extends AppCompatActivity {
 
     ActivityHomeBinding binding;
+    boolean tapped = false;
+    boolean dragged = false;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -41,10 +44,17 @@ public class HomePage extends AppCompatActivity {
     }
 
     private void startTabChangeListener() {
+
         binding.tabsTl.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
-                binding.mainFragmentVp2.setCurrentItem(tab.getPosition(), true);
+                if(!dragged) {
+                    tapped = true;
+                    binding.mainFragmentVp2.setCurrentItem(tab.getPosition(), true);
+                    Log.d("Debug", "Tab changed addonTabSelectedListener");
+                }
+                else
+                    dragged = false;
             }
 
             @Override
@@ -62,19 +72,14 @@ public class HomePage extends AppCompatActivity {
     private void startViewPagerListener() {
         binding.mainFragmentVp2.registerOnPageChangeCallback(new ViewPager2.OnPageChangeCallback() {
             @Override
-            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-                super.onPageScrolled(position, positionOffset, positionOffsetPixels);
-            }
-
-            @Override
             public void onPageSelected(int position) {
-                super.onPageSelected(position);
-                binding.tabsTl.getTabAt(position).select();
-            }
-
-            @Override
-            public void onPageScrollStateChanged(int state) {
-                super.onPageScrollStateChanged(state);
+                if(!tapped) {
+                    dragged = true;
+                    binding.tabsTl.getTabAt(position).select();
+                    Log.d("Debug", "Tab changed registerOnPageChangeCallback");
+                }
+                else
+                    tapped = false;
             }
         });
     }
