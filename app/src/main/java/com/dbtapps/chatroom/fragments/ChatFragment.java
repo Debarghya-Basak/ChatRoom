@@ -17,7 +17,7 @@ import com.dbtapps.chatroom.R;
 import com.dbtapps.chatroom.activities.UserListPage;
 import com.dbtapps.chatroom.adapters.ChatFragmentRecyclerViewAdapter;
 import com.dbtapps.chatroom.constants.Constants;
-import com.dbtapps.chatroom.models.ChatLoaderModel;
+import com.dbtapps.chatroom.models.DataLoaderModel;
 import com.dbtapps.chatroom.utilities.MakeToast;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -55,7 +55,7 @@ public class ChatFragment extends Fragment {
         //TODO: Load Chat Data properly
         Log.d("Debug", "ChatFragment : " + Constants.getKeyUserid());
 
-        ArrayList<ChatLoaderModel> chatAndGroupLoader = new ArrayList<>();
+        ArrayList<DataLoaderModel> chatAndGroupLoader = new ArrayList<>();
 
         Constants.db.collection("chats")
                 .whereArrayContains("user_ids", Constants.getKeyUserid())
@@ -69,7 +69,7 @@ public class ChatFragment extends Fragment {
                             ArrayList<String> chatUserIds = (ArrayList<String>) d.get(Constants.DB_USER_IDS);
                             HashMap<String, Long> chatPositionInList = (HashMap<String, Long>) d.get(Constants.DB_CHAT_POSITION);
 
-                            chatAndGroupLoader.add(new ChatLoaderModel(d.getId(), getChatUserId(chatUserIds), chatPositionInList.get(Constants.getKeyUserid())));
+                            chatAndGroupLoader.add(new DataLoaderModel(d.getId(), getChatUserId(chatUserIds), chatPositionInList.get(Constants.getKeyUserid())));
                         }
 
                         chatAndGroupLoader.sort(((o1, o2) -> (int) (o1.chatPositionInList - o2.chatPositionInList)));

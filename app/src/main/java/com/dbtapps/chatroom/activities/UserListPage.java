@@ -13,15 +13,20 @@ import com.dbtapps.chatroom.R;
 import com.dbtapps.chatroom.constants.Constants;
 import com.dbtapps.chatroom.databinding.ActivityUserListBinding;
 import com.dbtapps.chatroom.models.ContactModel;
+import com.dbtapps.chatroom.models.DataLoaderModel;
 import com.google.firebase.firestore.DocumentSnapshot;
 
+import org.checkerframework.checker.units.qual.A;
+
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
 
 public class UserListPage extends AppCompatActivity {
     ActivityUserListBinding binding;
 
-    ArrayList<ContactModel> contactModelList = new ArrayList<>();
+    ArrayList<ContactModel> contact = new ArrayList<>();
+
     private final String[] PROJECTION = new String[]{
             ContactsContract.CommonDataKinds.Phone.CONTACT_ID,
             ContactsContract.Contacts.DISPLAY_NAME,
@@ -36,6 +41,11 @@ public class UserListPage extends AppCompatActivity {
 
         setSupportActionBar(binding.actionBar);
         getSupportActionBar().setTitle("");
+
+        Constants.KEY_USERLIST_FROM_CONTACTS = new ArrayList<>();
+
+        getContactList();
+        compareContactsWithFirebase();
     }
 
     private void getContactList() {
@@ -54,10 +64,11 @@ public class UserListPage extends AppCompatActivity {
                     number = cursor.getString(numberIndex);
                     number = number.replace(" ", "");
                     if (!mobileNoSet.contains(number)) {
-                        contactModelList.add(new ContactModel(name, number));
+                        contact.add(new ContactModel(name, number));
+
                         mobileNoSet.add(number);
-                        Log.d("hvy", "onCreaterrView  Phone Number: name = " + name
-                                + " No = " + number);
+                        Log.d("hvy", "name = " + name
+                                + " , No = " + number);
                     }
                 }
             } finally {
@@ -69,6 +80,7 @@ public class UserListPage extends AppCompatActivity {
     private void compareContactsWithFirebase() {
 
         ArrayList<String> firebaseContacts = new ArrayList<>();
+        ArrayList<DataLoaderModel> firebaseContactIds = new ArrayList<>();
 
         Constants.db.collection(Constants.DB_USERS)
                 .orderBy("phone_number")
@@ -76,21 +88,18 @@ public class UserListPage extends AppCompatActivity {
                 .addOnSuccessListener(queryDocumentSnapshots -> {
                     for (DocumentSnapshot d : queryDocumentSnapshots.getDocuments()) {
                         firebaseContacts.add(d.get("phone_number").toString());
-                        Log.d("Debug", d.get("phone_number").toString());
+                        firebaseContactIds.add(new DataLoaderModel(d.getId()));
+                        Log.d("Debug", "Phone Number = " + d.get("phone_number").toString() + ", ID = " + d.getId());
                     }
 
-                    for (ContactModel contacts : contactModelList) {
-
-                        if (firebaseContacts.contains(contacts.getPhoneNumber())) {
-                            Log.d("Debug", "MATCH CONTACT : " + contacts.getPhoneNumber());
-                            Constants.KEY_USERLIST_PHONENUMBERS.add(contacts.getPhoneNumber());
-                            Log.d("Debug", "Added");
-                        }
-
+                    for(int i=0;i<contact.size();i++){
+                        int index = firebaseContacts.indexOf(contact.get(i).getPhoneNumber());
+                        if(index >= 0)
+                            Constants.KEY_USERLIST_FROM_CONTACTS.add(firebaseContactIds.get(index));
                     }
 
-                    for (String c : Constants.KEY_USERLIST_PHONENUMBERS)
-                        Log.d("Debug", "USERLIST : " + c);
+                    for (DataLoaderModel dlm : Constants.KEY_USERLIST_FROM_CONTACTS)
+                        Log.d("Debug", "USERLIST : " + dlm.chatUserId);
 
 
                 })

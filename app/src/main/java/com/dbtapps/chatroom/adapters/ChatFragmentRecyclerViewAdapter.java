@@ -13,7 +13,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.dbtapps.chatroom.R;
 import com.dbtapps.chatroom.constants.Constants;
-import com.dbtapps.chatroom.models.ChatLoaderModel;
+import com.dbtapps.chatroom.models.DataLoaderModel;
 import com.dbtapps.chatroom.models.ChatModel;
 import com.dbtapps.chatroom.utilities.BitmapManipulator;
 
@@ -24,10 +24,10 @@ import de.hdodenhof.circleimageview.CircleImageView;
 public class ChatFragmentRecyclerViewAdapter extends RecyclerView.Adapter<ChatFragmentRecyclerViewAdapter.ViewHolder> {
 
     private Context context;
-    ArrayList<ChatLoaderModel> chatAndGroupLoader;
+    ArrayList<DataLoaderModel> chatAndGroupLoader;
     ArrayList<ChatModel> chatList;
 
-    public ChatFragmentRecyclerViewAdapter(Context context, ArrayList<ChatLoaderModel> chatAndGroupLoader){
+    public ChatFragmentRecyclerViewAdapter(Context context, ArrayList<DataLoaderModel> chatAndGroupLoader){
         this.context = context;
         this.chatAndGroupLoader = chatAndGroupLoader;
     }
