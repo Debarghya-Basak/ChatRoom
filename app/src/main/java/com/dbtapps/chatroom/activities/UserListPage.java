@@ -2,28 +2,27 @@ package com.dbtapps.chatroom.activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.app.usage.ConfigurationStats;
 import android.content.ContentResolver;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.provider.ContactsContract;
 import android.util.Log;
+import android.view.Menu;
 
 import com.dbtapps.chatroom.R;
 import com.dbtapps.chatroom.constants.Constants;
+import com.dbtapps.chatroom.databinding.ActivityUserListBinding;
 import com.dbtapps.chatroom.models.ContactModel;
-import com.dbtapps.chatroom.utilities.PermissionManager;
 import com.google.firebase.firestore.DocumentSnapshot;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashSet;
-import java.util.List;
 
-public class TestActivity2 extends AppCompatActivity {
+public class UserListPage extends AppCompatActivity {
+    ActivityUserListBinding binding;
 
     ArrayList<ContactModel> contactModelList = new ArrayList<>();
-    private static final String[] PROJECTION = new String[]{
+    private final String[] PROJECTION = new String[]{
             ContactsContract.CommonDataKinds.Phone.CONTACT_ID,
             ContactsContract.Contacts.DISPLAY_NAME,
             ContactsContract.CommonDataKinds.Phone.NUMBER
@@ -32,13 +31,11 @@ public class TestActivity2 extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_test2);
+        binding = ActivityUserListBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
 
-        PermissionManager.permissionManager(this);
-
-        getContactList();
-        compareContactsWithFirebase();
-
+        setSupportActionBar(binding.actionBar);
+        getSupportActionBar().setTitle("");
     }
 
     private void getContactList() {
@@ -59,7 +56,7 @@ public class TestActivity2 extends AppCompatActivity {
                     if (!mobileNoSet.contains(number)) {
                         contactModelList.add(new ContactModel(name, number));
                         mobileNoSet.add(number);
-                        Log.d("Contacts", "name = " + name
+                        Log.d("hvy", "onCreaterrView  Phone Number: name = " + name
                                 + " No = " + number);
                     }
                 }
@@ -100,5 +97,11 @@ public class TestActivity2 extends AppCompatActivity {
                 .addOnFailureListener(e -> {
                     Log.d("Debug", e.getLocalizedMessage());
                 });
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.action_bar_userlistpage, menu);
+        return super.onCreateOptionsMenu(menu);
     }
 }

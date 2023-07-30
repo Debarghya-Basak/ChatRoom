@@ -27,7 +27,7 @@ import java.util.Map;
 public class HomePage extends AppCompatActivity {
 
     ActivityHomeBinding binding;
-    boolean tapped = false;
+    boolean tapped = true;
     boolean dragged = false;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -91,7 +91,7 @@ public class HomePage extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.action_bar, menu);
+        getMenuInflater().inflate(R.menu.action_bar_homepage, menu);
         return true;
     }
 

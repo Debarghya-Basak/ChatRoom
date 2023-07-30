@@ -2,7 +2,7 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <item android:id="@+id/menuActionBar" android:icon="@drawable/menu_navigation_drawer" app:showAsAction="always"
+    <item android:id="@+id/menuActionBar" android:icon="@drawable/menu_actionbar_icon" app:showAsAction="always"
         android:title="MENU" android:iconTint="@color/white">
 
         <menu>

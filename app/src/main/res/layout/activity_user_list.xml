@@ -4,6 +4,49 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".activities.UserList">
+    tools:context=".activities.UserListPage">
+
+    <com.google.android.material.appbar.MaterialToolbar
+        android:id="@+id/actionBar"
+        android:layout_width="match_parent"
+        android:layout_height="80sp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="30sp"
+
+        app:titleTextAppearance="@style/AppNameStyle30"
+        android:gravity="center_vertical"
+        android:theme="@style/Theme.Material3.Dark"
+        app:popupTheme="@style/Theme.Material3.Dark">
+
+        <com.google.android.material.button.MaterialButton
+            android:layout_width="40sp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="10sp"
+            app:icon="@drawable/back_actionbar_icon"
+            app:iconTint="@color/white"
+            app:iconSize="20sp"
+            app:iconGravity="textEnd"
+            android:backgroundTint="@color/black"
+            app:rippleColor="@color/grey"
+            />
+        
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Select Contact"
+            android:gravity="center_vertical"
+            style="@style/AppNameStyle30"/>
+
+    </com.google.android.material.appbar.MaterialToolbar>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/userListRv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/actionBar"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

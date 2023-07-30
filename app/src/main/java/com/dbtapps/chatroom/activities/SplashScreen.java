@@ -7,10 +7,14 @@ import android.app.ActivityOptions;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.transition.ChangeBounds;
+import android.transition.Explode;
+import android.transition.TransitionManager;
 import android.util.Log;
 import android.util.Pair;
 import android.view.View;
 
+import com.dbtapps.chatroom.R;
 import com.dbtapps.chatroom.constants.Constants;
 import com.dbtapps.chatroom.databinding.ActivitySplashScreenBinding;
 import com.dbtapps.chatroom.utilities.FinishCurrentActivity;

@@ -1,7 +1,6 @@
 package com.dbtapps.chatroom.fragments;
 
 import android.app.ActivityOptions;
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 
@@ -15,20 +14,16 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.dbtapps.chatroom.R;
-import com.dbtapps.chatroom.activities.UserList;
+import com.dbtapps.chatroom.activities.UserListPage;
 import com.dbtapps.chatroom.adapters.ChatFragmentRecyclerViewAdapter;
 import com.dbtapps.chatroom.constants.Constants;
 import com.dbtapps.chatroom.models.ChatLoaderModel;
-import com.dbtapps.chatroom.models.ChatModel;
 import com.dbtapps.chatroom.utilities.MakeToast;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.firestore.DocumentSnapshot;
-import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.HashMap;
-import java.util.Map;
 
 public class ChatFragment extends Fragment {
 
@@ -102,7 +97,7 @@ public class ChatFragment extends Fragment {
         fab.setOnClickListener(v -> {
             MakeToast.makeToast(getContext(), "Clicked");
             ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(getActivity());
-            Intent intent = new Intent(getActivity(), UserList.class);
+            Intent intent = new Intent(getActivity(), UserListPage.class);
             startActivity(intent, options.toBundle());
         });
     }

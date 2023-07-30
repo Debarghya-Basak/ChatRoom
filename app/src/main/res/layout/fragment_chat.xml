@@ -32,7 +32,7 @@
         android:layout_marginEnd="20sp"
         android:layout_marginBottom="20sp"
 
-        android:src="@drawable/add_floating_actionbar"
+        android:src="@drawable/add_floatingactionbutton_icon"
 
         style="@style/floatingActionButton"/>
 
