@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.dbtapps.chatroom.R;
 import com.dbtapps.chatroom.constants.Constants;
+import com.dbtapps.chatroom.models.DataLoaderModel;
 import com.dbtapps.chatroom.utilities.BitmapManipulator;
 
 import java.util.ArrayList;
@@ -22,9 +23,9 @@ import de.hdodenhof.circleimageview.CircleImageView;
 public class UserListRecyclerViewAdapter extends RecyclerView.Adapter<UserListRecyclerViewAdapter.ViewHolder> {
 
     private Context context;
-    private ArrayList<String> userListLoader;
+    private ArrayList<DataLoaderModel> userListLoader;
 
-    public UserListRecyclerViewAdapter(Context context, ArrayList<String> userListLoader){
+    public UserListRecyclerViewAdapter(Context context, ArrayList<DataLoaderModel> userListLoader){
         this.context = context;
         this.userListLoader = userListLoader;
     }
@@ -42,25 +43,16 @@ public class UserListRecyclerViewAdapter extends RecyclerView.Adapter<UserListRe
 
         if(TextUtils.isEmpty(holder.chatUserNameTv.getText())){
 
-            Constants.db.collection(Constants.DB_CHATS)
-                    .document(userListLoader.get(position))
+            Constants.db.collection(Constants.DB_USERS)
+                    .document(userListLoader.get(position).chatUserId)
                     .get()
                     .addOnSuccessListener(documentSnapshot -> {
                         holder.chatUserPhoneNumberTv.setText(documentSnapshot.get(Constants.DB_PHONE_NUMBER).toString());
-                    })
-                    .addOnFailureListener(e -> {
-                        Log.d("Debug", "Failed to load last message of the chat");
-                    });
-
-            Constants.db.collection(Constants.DB_USERS)
-                    .document(userListLoader.get(position))
-                    .get()
-                    .addOnSuccessListener(documentSnapshot -> {
                         holder.chatUserNameTv.setText(documentSnapshot.get(Constants.DB_NAME).toString());
                         holder.chatUserProfilePicCiv.setImageBitmap(BitmapManipulator.stringToBitMap(documentSnapshot.get(Constants.DB_PROFILE_PICTURE).toString()));
                     })
                     .addOnFailureListener(e -> {
-                        Log.d("Debug", "Failed to load chat");
+                        Log.d("Debug", "Failed to load last message of the chat");
                     });
         }
 
@@ -68,7 +60,7 @@ public class UserListRecyclerViewAdapter extends RecyclerView.Adapter<UserListRe
 
     @Override
     public int getItemCount() {
-        return 0;
+        return userListLoader.size();
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder{

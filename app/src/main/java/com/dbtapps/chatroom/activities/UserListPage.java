@@ -1,7 +1,9 @@
 package com.dbtapps.chatroom.activities;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
 
+import android.app.Activity;
 import android.content.ContentResolver;
 import android.database.Cursor;
 import android.os.Bundle;
@@ -10,6 +12,7 @@ import android.util.Log;
 import android.view.Menu;
 
 import com.dbtapps.chatroom.R;
+import com.dbtapps.chatroom.adapters.UserListRecyclerViewAdapter;
 import com.dbtapps.chatroom.constants.Constants;
 import com.dbtapps.chatroom.databinding.ActivityUserListBinding;
 import com.dbtapps.chatroom.models.ContactModel;
@@ -26,6 +29,7 @@ public class UserListPage extends AppCompatActivity {
     ActivityUserListBinding binding;
 
     ArrayList<ContactModel> contact = new ArrayList<>();
+    Activity activity;
 
     private final String[] PROJECTION = new String[]{
             ContactsContract.CommonDataKinds.Phone.CONTACT_ID,
@@ -43,6 +47,7 @@ public class UserListPage extends AppCompatActivity {
         getSupportActionBar().setTitle("");
 
         Constants.KEY_USERLIST_FROM_CONTACTS = new ArrayList<>();
+        activity = this;
 
         getContactList();
         compareContactsWithFirebase();
@@ -97,6 +102,10 @@ public class UserListPage extends AppCompatActivity {
                         if(index >= 0)
                             Constants.KEY_USERLIST_FROM_CONTACTS.add(firebaseContactIds.get(index));
                     }
+
+                    UserListRecyclerViewAdapter adapter = new UserListRecyclerViewAdapter(this, Constants.KEY_USERLIST_FROM_CONTACTS);
+                    binding.userListRv.setAdapter(adapter);
+                    binding.userListRv.setLayoutManager(new LinearLayoutManager(activity));
 
                     for (DataLoaderModel dlm : Constants.KEY_USERLIST_FROM_CONTACTS)
                         Log.d("Debug", "USERLIST : " + dlm.chatUserId);
