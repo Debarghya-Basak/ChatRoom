@@ -35,7 +35,7 @@
         app:tabSelectedTextColor="@color/black"
         app:tabIndicatorGravity="stretch"
         app:tabIndicatorFullWidth="true"
-        app:tabIndicatorAnimationDuration="1000"
+        app:tabIndicatorAnimationDuration="500"
         app:tabIndicatorAnimationMode="elastic"
         app:tabIndicator="@drawable/tab_background"
         app:tabIndicatorColor="@color/white"
