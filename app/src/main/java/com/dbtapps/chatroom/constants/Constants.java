@@ -1,6 +1,7 @@
 package com.dbtapps.chatroom.constants;
 
 import com.dbtapps.chatroom.models.DataLoaderModel;
+import com.dbtapps.chatroom.models.UserModel;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
 
@@ -15,7 +16,7 @@ public class Constants {
     private static String KEY_PASSWORD;
     private static String KEY_NAME;
     private static String KEY_PROFILE_PICTURE;
-    public static ArrayList<DataLoaderModel> KEY_USERLIST_FROM_CONTACTS = new ArrayList<>();
+    public static ArrayList<UserModel> KEY_USERS_FROM_CONTACTS = new ArrayList<>();
     public static FirebaseFirestore db = FirebaseFirestore.getInstance();
     public static final String DB_USERS = "users";
     public static final String DB_NAME = "name";

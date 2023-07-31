@@ -10,7 +10,9 @@ import com.dbtapps.chatroom.constants.Constants;
 import com.dbtapps.chatroom.databinding.ActivityChatPageBinding;
 import com.dbtapps.chatroom.R;
 import com.dbtapps.chatroom.models.DataLoaderModel;
+import com.dbtapps.chatroom.models.UserModel;
 import com.dbtapps.chatroom.utilities.BitmapManipulator;
+import com.google.firebase.firestore.auth.User;
 
 import java.util.ArrayList;
 
@@ -26,16 +28,9 @@ public class ChatPage extends AppCompatActivity {
 
         Intent intent = getIntent();
         Bundle args = intent.getBundleExtra("Bundle");
-        DataLoaderModel userData = (DataLoaderModel) args.getSerializable("DataLoaderModel");
+        UserModel userData = (UserModel) args.getSerializable("UserModel");
 
-        Constants.db.collection(Constants.DB_USERS)
-                .document(userData.chatUserId)
-                .get()
-                .addOnSuccessListener(documentSnapshot -> {
-                    binding.userProfilePicCiv.setImageBitmap(BitmapManipulator.stringToBitMap(documentSnapshot.get(Constants.DB_PROFILE_PICTURE).toString()));
-                    binding.userNameTv.setText(documentSnapshot.get(Constants.DB_NAME).toString());
-                });
-
-
+        binding.userProfilePicCiv.setImageBitmap(BitmapManipulator.stringToBitMap(userData.profile_picture));
+        binding.userNameTv.setText(userData.name);
     }
 }

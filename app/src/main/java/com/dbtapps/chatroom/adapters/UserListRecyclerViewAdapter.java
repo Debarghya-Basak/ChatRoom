@@ -18,7 +18,9 @@ import com.dbtapps.chatroom.R;
 import com.dbtapps.chatroom.activities.ChatPage;
 import com.dbtapps.chatroom.constants.Constants;
 import com.dbtapps.chatroom.models.DataLoaderModel;
+import com.dbtapps.chatroom.models.UserModel;
 import com.dbtapps.chatroom.utilities.BitmapManipulator;
+import com.google.firebase.firestore.auth.User;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -28,11 +30,11 @@ import de.hdodenhof.circleimageview.CircleImageView;
 public class UserListRecyclerViewAdapter extends RecyclerView.Adapter<UserListRecyclerViewAdapter.ViewHolder> {
 
     private Context context;
-    private ArrayList<DataLoaderModel> userListLoader;
+    private ArrayList<UserModel> userList;
 
-    public UserListRecyclerViewAdapter(Context context, ArrayList<DataLoaderModel> userListLoader){
+    public UserListRecyclerViewAdapter(Context context, ArrayList<UserModel> userList){
         this.context = context;
-        this.userListLoader = userListLoader;
+        this.userList = userList;
     }
 
     @NonNull
@@ -49,7 +51,7 @@ public class UserListRecyclerViewAdapter extends RecyclerView.Adapter<UserListRe
         if(TextUtils.isEmpty(holder.chatUserNameTv.getText())){
 
             Constants.db.collection(Constants.DB_USERS)
-                    .document(userListLoader.get(position).chatUserId)
+                    .document(userList.get(position).user_id)
                     .get()
                     .addOnSuccessListener(documentSnapshot -> {
                         holder.chatUserPhoneNumberTv.setText(documentSnapshot.get(Constants.DB_PHONE_NUMBER).toString());
@@ -64,7 +66,7 @@ public class UserListRecyclerViewAdapter extends RecyclerView.Adapter<UserListRe
         holder.clickLayout.setOnClickListener(v -> {
             Intent intent = new Intent(context, ChatPage.class);
             Bundle args = new Bundle();
-            args.putSerializable("DataLoaderModel", (Serializable) userListLoader.get(position));
+            args.putSerializable("UserModel", (Serializable) userList.get(position));
             intent.putExtra("Bundle", args);
             context.startActivity(intent);
         });
@@ -73,7 +75,7 @@ public class UserListRecyclerViewAdapter extends RecyclerView.Adapter<UserListRe
 
     @Override
     public int getItemCount() {
-        return userListLoader.size();
+        return userList.size();
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder{

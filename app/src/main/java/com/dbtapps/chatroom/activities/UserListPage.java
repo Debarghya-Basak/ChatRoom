@@ -9,7 +9,6 @@ import android.os.Bundle;
 import android.provider.ContactsContract;
 import android.util.Log;
 import android.view.Menu;
-import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
@@ -21,6 +20,7 @@ import com.dbtapps.chatroom.constants.Constants;
 import com.dbtapps.chatroom.databinding.ActivityUserListBinding;
 import com.dbtapps.chatroom.models.ContactModel;
 import com.dbtapps.chatroom.models.DataLoaderModel;
+import com.dbtapps.chatroom.models.UserModel;
 import com.dbtapps.chatroom.utilities.MakeToast;
 import com.dbtapps.chatroom.utilities.PermissionManager;
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -49,7 +49,7 @@ public class UserListPage extends AppCompatActivity {
         setSupportActionBar(binding.actionBar);
         getSupportActionBar().setTitle("");
 
-        Constants.KEY_USERLIST_FROM_CONTACTS = new ArrayList<>();
+        Constants.KEY_USERS_FROM_CONTACTS = new ArrayList<>();
         activity = this;
 
         PermissionManager.permissionManager(this);
@@ -101,34 +101,37 @@ public class UserListPage extends AppCompatActivity {
 
     private void compareContactsWithFirebase() {
 
+        ArrayList<UserModel> firebaseUsers = new ArrayList<>();
         ArrayList<String> firebaseContacts = new ArrayList<>();
-        ArrayList<DataLoaderModel> firebaseContactIds = new ArrayList<>();
 
         Constants.db.collection(Constants.DB_USERS)
                 .get()
                 .addOnSuccessListener(queryDocumentSnapshots -> {
                     for (DocumentSnapshot d : queryDocumentSnapshots.getDocuments()) {
+
                         if(d.get(Constants.DB_PHONE_NUMBER).toString().equals(Constants.getKeyPhone()))
                             continue;
+
+                        firebaseUsers.add(new UserModel(d.get(Constants.DB_NAME).toString(),
+                                d.get(Constants.DB_PASSWORD).toString(),
+                                d.get(Constants.DB_PHONE_NUMBER).toString(),
+                                d.get(Constants.DB_PROFILE_PICTURE).toString(),
+                                d.getId()));
                         firebaseContacts.add(d.get(Constants.DB_PHONE_NUMBER).toString());
-                        firebaseContactIds.add(new DataLoaderModel(d.getId()));
+
                         Log.d("Debug", "Phone Number = " + d.get(Constants.DB_PHONE_NUMBER).toString() + ", ID = " + d.getId());
                     }
 
                     for(int i=0;i<contact.size();i++){
                         int index = firebaseContacts.indexOf(contact.get(i).getPhoneNumber());
-                        if(index >= 0)
-                            Constants.KEY_USERLIST_FROM_CONTACTS.add(firebaseContactIds.get(index));
+                        if(index >= 0) {
+                            Constants.KEY_USERS_FROM_CONTACTS.add(firebaseUsers.get(index));
+                        }
                     }
 
-                    UserListRecyclerViewAdapter adapter = new UserListRecyclerViewAdapter(this, Constants.KEY_USERLIST_FROM_CONTACTS);
+                    UserListRecyclerViewAdapter adapter = new UserListRecyclerViewAdapter(this, Constants.KEY_USERS_FROM_CONTACTS);
                     binding.userListRv.setAdapter(adapter);
                     binding.userListRv.setLayoutManager(new LinearLayoutManager(activity));
-
-                    for (DataLoaderModel dlm : Constants.KEY_USERLIST_FROM_CONTACTS)
-                        Log.d("Debug", "USERLIST : " + dlm.chatUserId);
-
-
                 })
                 .addOnFailureListener(e -> {
                     Log.d("Debug", e.getLocalizedMessage());
