@@ -6,21 +6,15 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
-import android.view.WindowManager;
 
 import com.dbtapps.chatroom.constants.Constants;
 import com.dbtapps.chatroom.databinding.ActivityChatPageBinding;
-import com.dbtapps.chatroom.R;
-import com.dbtapps.chatroom.models.DataLoaderModel;
-import com.dbtapps.chatroom.models.TEMPSendMessageModel;
+import com.dbtapps.chatroom.models.MessageModel;
 import com.dbtapps.chatroom.models.UserModel;
 import com.dbtapps.chatroom.utilities.BitmapManipulator;
-import com.dbtapps.chatroom.utilities.MakeToast;
 import com.google.firebase.Timestamp;
 import com.google.firebase.firestore.DocumentSnapshot;
-import com.google.firebase.firestore.auth.User;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 public class ChatPage extends AppCompatActivity {
@@ -80,7 +74,7 @@ public class ChatPage extends AppCompatActivity {
                         .document(chatDocumentId)
                         .collection(Constants.DB_MESSAGES)
                         .document()
-                        .set(new TEMPSendMessageModel(binding.messageEt.getText().toString(), Constants.getKeyUserid(), userData.user_id, Timestamp.now()));
+                        .set(new MessageModel(binding.messageEt.getText().toString(), Constants.getKeyUserid(), userData.user_id, Timestamp.now()));
             }
         });
     }
