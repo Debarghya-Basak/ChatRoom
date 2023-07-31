@@ -28,7 +28,7 @@ public class Constants {
     public static final String DB_LAST_MESSAGE = "last_message";
     public static final String DB_CHAT_POSITION = "chat_position";
     public static final String DB_USER_IDS = "user_ids";
-
+    public static final String DB_MESSAGES = "messages";
 
     public static String getKeyUserid() {
         return KEY_USERID;
