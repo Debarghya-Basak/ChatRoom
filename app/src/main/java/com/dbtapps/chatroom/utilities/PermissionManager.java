@@ -44,7 +44,7 @@ public class PermissionManager extends AppCompatActivity {
             for (String permission : permissionToBeGranted)
                 permissionToBeGrantedString[i++] = permission;
 
-            MakeToast.makeToast(activity.getApplicationContext(), "Please accept the permissions");
+            //MakeToast.makeToast(activity.getApplicationContext(), "Please accept the permissions");
             ActivityCompat.requestPermissions(activity, permissionToBeGrantedString, PERMISSION_REQ_CODE);
         }
     }

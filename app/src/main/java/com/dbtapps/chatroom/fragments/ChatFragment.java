@@ -95,7 +95,6 @@ public class ChatFragment extends Fragment {
 
     private void setFabListener() {
         fab.setOnClickListener(v -> {
-            MakeToast.makeToast(getContext(), "Clicked");
 //            ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(getActivity());
             Intent intent = new Intent(getActivity(), UserListPage.class);
 //            startActivity(intent, options.toBundle());

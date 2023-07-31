@@ -1,14 +1,18 @@
 package com.dbtapps.chatroom.activities;
 
+import android.Manifest;
 import android.app.Activity;
 import android.content.ContentResolver;
+import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.provider.ContactsContract;
 import android.util.Log;
 import android.view.Menu;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.dbtapps.chatroom.R;
@@ -17,6 +21,8 @@ import com.dbtapps.chatroom.constants.Constants;
 import com.dbtapps.chatroom.databinding.ActivityUserListBinding;
 import com.dbtapps.chatroom.models.ContactModel;
 import com.dbtapps.chatroom.models.DataLoaderModel;
+import com.dbtapps.chatroom.utilities.MakeToast;
+import com.dbtapps.chatroom.utilities.PermissionManager;
 import com.google.firebase.firestore.DocumentSnapshot;
 
 import java.util.ArrayList;
@@ -46,8 +52,22 @@ public class UserListPage extends AppCompatActivity {
         Constants.KEY_USERLIST_FROM_CONTACTS = new ArrayList<>();
         activity = this;
 
-        getContactList();
-        compareContactsWithFirebase();
+        PermissionManager.permissionManager(this);
+        if(ContextCompat.checkSelfPermission(this, Manifest.permission.READ_CONTACTS) == PackageManager.PERMISSION_GRANTED){
+            getContactList();
+            compareContactsWithFirebase();
+            backBtnListener();
+        }
+        else
+            MakeToast.makeToast(this, "Contact Permission not granted");
+
+
+    }
+
+    private void backBtnListener() {
+        binding.backBtn.setOnClickListener(v -> {
+            onBackPressed();
+        });
     }
 
     private void getContactList() {
@@ -85,15 +105,14 @@ public class UserListPage extends AppCompatActivity {
         ArrayList<DataLoaderModel> firebaseContactIds = new ArrayList<>();
 
         Constants.db.collection(Constants.DB_USERS)
-                .orderBy("phone_number")
                 .get()
                 .addOnSuccessListener(queryDocumentSnapshots -> {
                     for (DocumentSnapshot d : queryDocumentSnapshots.getDocuments()) {
-                        if(d.get("phone_number").toString().equals(Constants.getKeyPhone()))
+                        if(d.get(Constants.DB_PHONE_NUMBER).toString().equals(Constants.getKeyPhone()))
                             continue;
-                        firebaseContacts.add(d.get("phone_number").toString());
+                        firebaseContacts.add(d.get(Constants.DB_PHONE_NUMBER).toString());
                         firebaseContactIds.add(new DataLoaderModel(d.getId()));
-                        Log.d("Debug", "Phone Number = " + d.get("phone_number").toString() + ", ID = " + d.getId());
+                        Log.d("Debug", "Phone Number = " + d.get(Constants.DB_PHONE_NUMBER).toString() + ", ID = " + d.getId());
                     }
 
                     for(int i=0;i<contact.size();i++){

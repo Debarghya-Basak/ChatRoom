@@ -55,6 +55,8 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintBottom_toTopOf="@id/sendMessageContainer"
 
+        android:focusableInTouchMode="true"
+        android:focusable="true"
         android:orientation="vertical"
         android:overScrollMode="never"
         android:clipToPadding="false"
@@ -105,6 +107,7 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
 
+            android:focusable="true"
             android:paddingEnd="28sp"
             style="@style/sendButton"/>
     

@@ -20,15 +20,12 @@
         app:popupTheme="@style/Theme.Material3.Dark">
 
         <com.google.android.material.button.MaterialButton
+            android:id="@+id/backBtn"
             android:layout_width="40sp"
             android:layout_height="wrap_content"
             android:layout_marginEnd="10sp"
-            app:icon="@drawable/back_actionbar_icon"
-            app:iconTint="@color/white"
-            app:iconSize="20sp"
-            app:iconGravity="textEnd"
-            android:backgroundTint="@color/black"
-            app:rippleColor="@color/grey"
+
+            style="@style/backButton"
             />
         
         <TextView
