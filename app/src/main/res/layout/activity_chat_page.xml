@@ -6,4 +6,106 @@
     android:layout_height="match_parent"
     tools:context=".activities.ChatPage">
 
+    <com.google.android.material.appbar.MaterialToolbar
+        android:id="@+id/actionBar"
+        android:layout_width="match_parent"
+        android:layout_height="80sp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+
+        android:gravity="center_vertical"
+        android:theme="@style/Theme.Material3.Dark"
+        app:popupTheme="@style/Theme.Material3.Dark">
+
+        <com.google.android.material.button.MaterialButton
+            android:layout_width="40sp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="10sp"
+
+            style="@style/backButton"/>
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:layout_width="50sp"
+            android:layout_height="match_parent"
+            android:layout_margin="10sp"
+
+            android:src="@drawable/default_profile_pic"
+            app:civ_border_width="2dp"
+            app:civ_border_color="#FFFFFFFF"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="10sp"
+            android:text="- - -"
+            android:gravity="center_vertical"
+            style="@style/AppNameStyle30"/>
+
+    </com.google.android.material.appbar.MaterialToolbar>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginTop="20sp"
+        app:layout_constraintTop_toBottomOf="@id/actionBar"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/sendMessageContainer"
+
+        android:orientation="vertical"
+        android:overScrollMode="never"
+        android:clipToPadding="false"
+        app:stackFromEnd="true"/>
+
+    <LinearLayout
+        android:id="@+id/sendMessageContainer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_margin="20sp"
+        android:orientation="horizontal">
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginEnd="10sp"
+
+            app:boxCornerRadiusTopStart="25sp"
+            app:boxCornerRadiusBottomStart="25sp"
+            app:boxCornerRadiusTopEnd="25sp"
+            app:boxCornerRadiusBottomEnd="25sp"
+
+            android:hint="Enter your message"
+            app:hintEnabled="true"
+            app:hintAnimationEnabled="true"
+            app:hintTextColor="@color/white"
+            android:textColorHint="@color/grey"
+
+            app:boxStrokeColor="@color/white"
+            app:boxStrokeWidth="2sp"
+
+            style="@style/Widget.Material3.TextInputLayout.OutlinedBox.Dense"
+            >
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.button.MaterialButton
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+
+            android:paddingEnd="28sp"
+            style="@style/sendButton"/>
+    
+    </LinearLayout>
+
 </androidx.constraintlayout.widget.ConstraintLayout>

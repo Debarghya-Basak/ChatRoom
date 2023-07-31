@@ -92,6 +92,8 @@ public class UserListPage extends AppCompatActivity {
                 .get()
                 .addOnSuccessListener(queryDocumentSnapshots -> {
                     for (DocumentSnapshot d : queryDocumentSnapshots.getDocuments()) {
+                        if(d.get("phone_number").toString().equals(Constants.getKeyPhone()))
+                            continue;
                         firebaseContacts.add(d.get("phone_number").toString());
                         firebaseContactIds.add(new DataLoaderModel(d.getId()));
                         Log.d("Debug", "Phone Number = " + d.get("phone_number").toString() + ", ID = " + d.getId());
