@@ -1,6 +1,8 @@
 package com.dbtapps.chatroom.models;
 
-public class DataLoaderModel {
+import java.io.Serializable;
+
+public class DataLoaderModel implements Serializable {
 
     public String chatDocumentId = null;
     public String chatUserId = null;

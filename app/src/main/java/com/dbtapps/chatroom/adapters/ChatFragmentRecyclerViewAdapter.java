@@ -1,17 +1,20 @@
 package com.dbtapps.chatroom.adapters;
 
 import android.content.Context;
+import android.content.Intent;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.dbtapps.chatroom.R;
+import com.dbtapps.chatroom.activities.ChatPage;
 import com.dbtapps.chatroom.constants.Constants;
 import com.dbtapps.chatroom.models.DataLoaderModel;
 import com.dbtapps.chatroom.models.ChatModel;
@@ -71,6 +74,11 @@ public class ChatFragmentRecyclerViewAdapter extends RecyclerView.Adapter<ChatFr
                         Log.d("Debug", "Failed to load chat");
                     });
         }
+
+        holder.clickLayout.setOnClickListener(v -> {
+            Intent intent = new Intent(context, ChatPage.class);
+            context.startActivity(intent);
+        });
     }
 
     @Override
@@ -82,6 +90,7 @@ public class ChatFragmentRecyclerViewAdapter extends RecyclerView.Adapter<ChatFr
 
         TextView chatUserNameTv, chatUserLastMessageTv;
         CircleImageView chatUserProfilePicCiv;
+        FrameLayout clickLayout;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -89,6 +98,7 @@ public class ChatFragmentRecyclerViewAdapter extends RecyclerView.Adapter<ChatFr
             chatUserNameTv = itemView.findViewById(R.id.chatUserNameTv);
             chatUserLastMessageTv = itemView.findViewById(R.id.chatUserLastMessageTv);
             chatUserProfilePicCiv = itemView.findViewById(R.id.chatUserProfilePicCiv);
+            clickLayout = itemView.findViewById(R.id.clickLayout);
 
         }
     }

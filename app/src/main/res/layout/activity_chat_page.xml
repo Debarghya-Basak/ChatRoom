@@ -26,7 +26,8 @@
             style="@style/backButton"/>
 
         <de.hdodenhof.circleimageview.CircleImageView
-            android:layout_width="50sp"
+            android:id="@+id/userProfilePicCiv"
+            android:layout_width="40sp"
             android:layout_height="match_parent"
             android:layout_margin="10sp"
 
@@ -35,12 +36,13 @@
             app:civ_border_color="#FFFFFFFF"/>
 
         <TextView
+            android:id="@+id/userNameTv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="10sp"
             android:text="- - -"
             android:gravity="center_vertical"
-            style="@style/AppNameStyle30"/>
+            style="@style/ChatFragmentUserNameTextStyle20"/>
 
     </com.google.android.material.appbar.MaterialToolbar>
 

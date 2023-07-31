@@ -1,8 +1,5 @@
 package com.dbtapps.chatroom.activities;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.LinearLayoutManager;
-
 import android.app.Activity;
 import android.content.ContentResolver;
 import android.database.Cursor;
@@ -10,6 +7,9 @@ import android.os.Bundle;
 import android.provider.ContactsContract;
 import android.util.Log;
 import android.view.Menu;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.dbtapps.chatroom.R;
 import com.dbtapps.chatroom.adapters.UserListRecyclerViewAdapter;
@@ -19,10 +19,7 @@ import com.dbtapps.chatroom.models.ContactModel;
 import com.dbtapps.chatroom.models.DataLoaderModel;
 import com.google.firebase.firestore.DocumentSnapshot;
 
-import org.checkerframework.checker.units.qual.A;
-
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.HashSet;
 
 public class UserListPage extends AppCompatActivity {

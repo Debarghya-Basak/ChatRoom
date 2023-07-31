@@ -1,21 +1,26 @@
 package com.dbtapps.chatroom.adapters;
 
 import android.content.Context;
+import android.content.Intent;
+import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.dbtapps.chatroom.R;
+import com.dbtapps.chatroom.activities.ChatPage;
 import com.dbtapps.chatroom.constants.Constants;
 import com.dbtapps.chatroom.models.DataLoaderModel;
 import com.dbtapps.chatroom.utilities.BitmapManipulator;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 import de.hdodenhof.circleimageview.CircleImageView;
@@ -56,6 +61,14 @@ public class UserListRecyclerViewAdapter extends RecyclerView.Adapter<UserListRe
                     });
         }
 
+        holder.clickLayout.setOnClickListener(v -> {
+            Intent intent = new Intent(context, ChatPage.class);
+            Bundle args = new Bundle();
+            args.putSerializable("DataLoaderModel", (Serializable) userListLoader.get(position));
+            intent.putExtra("Bundle", args);
+            context.startActivity(intent);
+        });
+
     }
 
     @Override
@@ -67,6 +80,7 @@ public class UserListRecyclerViewAdapter extends RecyclerView.Adapter<UserListRe
 
         TextView chatUserNameTv, chatUserPhoneNumberTv;
         CircleImageView chatUserProfilePicCiv;
+        FrameLayout clickLayout;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -74,6 +88,7 @@ public class UserListRecyclerViewAdapter extends RecyclerView.Adapter<UserListRe
             chatUserNameTv = itemView.findViewById(R.id.chatUserNameTv);
             chatUserPhoneNumberTv = itemView.findViewById(R.id.chatUserPhoneNumberTv);
             chatUserProfilePicCiv = itemView.findViewById(R.id.chatUserProfilePicCiv);
+            clickLayout = itemView.findViewById(R.id.clickLayout);
         }
     }
 

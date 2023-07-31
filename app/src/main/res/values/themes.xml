@@ -72,10 +72,13 @@
         <item name="android:textColor">@color/grey</item>
     </style>
 
-    <style name="ChatFragmentUserNameTextStyle20" parent="Widget.AppCompat.TextView">
-        <item name="fontFamily">@font/salsa_regular</item>
+    <style name="ChatFragmentUserNameTextStyle20" parent="ChatFragmentChatTextStyle15">
         <item name="android:textSize">20sp</item>
-        <item name="android:textStyle">normal</item>
+        <item name="android:textColor">@color/white</item>
+    </style>
+
+    <style name="ChatFragmentUserNameTextStyle30" parent="ChatFragmentChatTextStyle15">
+        <item name="android:textSize">30sp</item>
         <item name="android:textColor">@color/white</item>
     </style>
 
