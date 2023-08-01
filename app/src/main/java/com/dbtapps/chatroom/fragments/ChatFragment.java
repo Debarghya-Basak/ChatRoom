@@ -55,15 +55,41 @@ public class ChatFragment extends Fragment {
         //TODO: Load Chat Data properly
         Log.d("Debug", "ChatFragment : " + Constants.getKeyUserid());
 
-        ArrayList<DataLoaderModel> chatAndGroupLoader = new ArrayList<>();
+//        Constants.db.collection("chats")
+//                .whereArrayContains("user_ids", Constants.getKeyUserid())
+//                .get()
+//                .addOnSuccessListener(queryDocumentSnapshots -> {
+//                    if(!queryDocumentSnapshots.isEmpty()){
+//
+//                        for(DocumentSnapshot d : queryDocumentSnapshots.getDocuments()){
+//                            Log.d("Debug" , "ChatFragment : " + d.get("user_ids") + " , " + d.getId());
+//
+//                            ArrayList<String> chatUserIds = (ArrayList<String>) d.get(Constants.DB_USER_IDS);
+//                            HashMap<String, Long> chatPositionInList = (HashMap<String, Long>) d.get(Constants.DB_CHAT_POSITION);
+//
+//                            chatAndGroupLoader.add(new DataLoaderModel(d.getId(), getChatUserId(chatUserIds)));
+//                        }
+//
+////                        chatAndGroupLoader.sort(((o1, o2) -> (int) (o1.chatPositionInList - o2.chatPositionInList)));
+//
+//                        ChatFragmentRecyclerViewAdapter adapter = new ChatFragmentRecyclerViewAdapter(getContext(),chatAndGroupLoader);
+//                        chatRv.setAdapter(adapter);
+//                        chatRv.setLayoutManager(new LinearLayoutManager(getActivity()));
+//                    }
+//                    else{
+//                        Log.d("Debug" , "ChatFragment : nothing");
+//                    }
+//                });
 
         Constants.db.collection("chats")
                 .whereArrayContains("user_ids", Constants.getKeyUserid())
-                .get()
-                .addOnSuccessListener(queryDocumentSnapshots -> {
-                    if(!queryDocumentSnapshots.isEmpty()){
+                .addSnapshotListener((value, error) -> {
 
-                        for(DocumentSnapshot d : queryDocumentSnapshots.getDocuments()){
+                    ArrayList<DataLoaderModel> chatAndGroupLoader = new ArrayList<>();
+                    if(!value.isEmpty()){
+
+                        for(DocumentSnapshot d : value.getDocuments()){
+
                             Log.d("Debug" , "ChatFragment : " + d.get("user_ids") + " , " + d.getId());
 
                             ArrayList<String> chatUserIds = (ArrayList<String>) d.get(Constants.DB_USER_IDS);
@@ -72,14 +98,10 @@ public class ChatFragment extends Fragment {
                             chatAndGroupLoader.add(new DataLoaderModel(d.getId(), getChatUserId(chatUserIds)));
                         }
 
-//                        chatAndGroupLoader.sort(((o1, o2) -> (int) (o1.chatPositionInList - o2.chatPositionInList)));
-
                         ChatFragmentRecyclerViewAdapter adapter = new ChatFragmentRecyclerViewAdapter(getContext(),chatAndGroupLoader);
                         chatRv.setAdapter(adapter);
                         chatRv.setLayoutManager(new LinearLayoutManager(getActivity()));
-                    }
-                    else{
-                        Log.d("Debug" , "ChatFragment : nothing");
+                        chatRv.smoothScrollToPosition(0);
                     }
                 });
 

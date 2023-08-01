@@ -2,6 +2,7 @@ package com.dbtapps.chatroom.adapters;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -11,6 +12,7 @@ import android.widget.FrameLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.dbtapps.chatroom.R;
@@ -18,9 +20,15 @@ import com.dbtapps.chatroom.activities.ChatPage;
 import com.dbtapps.chatroom.constants.Constants;
 import com.dbtapps.chatroom.models.DataLoaderModel;
 import com.dbtapps.chatroom.models.ChatModel;
+import com.dbtapps.chatroom.models.UserModel;
 import com.dbtapps.chatroom.utilities.BitmapManipulator;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.EventListener;
+import com.google.firebase.firestore.FirebaseFirestoreException;
 
+import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.concurrent.atomic.AtomicReference;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
@@ -55,30 +63,36 @@ public class ChatFragmentRecyclerViewAdapter extends RecyclerView.Adapter<ChatFr
 
             Constants.db.collection(Constants.DB_CHATS)
                     .document(chatAndGroupLoader.get(position).chatDocumentId)
-                    .get()
-                    .addOnSuccessListener(documentSnapshot -> {
-                        holder.chatUserLastMessageTv.setText(documentSnapshot.get(Constants.DB_LAST_MESSAGE).toString());
-                    })
-                    .addOnFailureListener(e -> {
-                        Log.d("Debug", "Failed to load last message of the chat");
+                    .addSnapshotListener((value, error) -> {
+                        holder.chatUserLastMessageTv.setText(value.get(Constants.DB_LAST_MESSAGE).toString());
                     });
 
             Constants.db.collection(Constants.DB_USERS)
                     .document(chatAndGroupLoader.get(position).chatUserId)
                     .get()
                     .addOnSuccessListener(documentSnapshot -> {
+
+                        UserModel user = new UserModel(documentSnapshot.get(Constants.DB_NAME).toString()
+                                , documentSnapshot.get(Constants.DB_PASSWORD).toString()
+                                , documentSnapshot.get(Constants.DB_PHONE_NUMBER).toString()
+                                , documentSnapshot.get(Constants.DB_PROFILE_PICTURE).toString()
+                                , chatAndGroupLoader.get(position).chatUserId);
                         holder.chatUserNameTv.setText(documentSnapshot.get(Constants.DB_NAME).toString());
                         holder.chatUserProfilePicCiv.setImageBitmap(BitmapManipulator.stringToBitMap(documentSnapshot.get(Constants.DB_PROFILE_PICTURE).toString()));
+
+                        holder.clickLayout.setOnClickListener(v -> {
+                                    Intent intent = new Intent(context, ChatPage.class);
+                                    Bundle args = new Bundle();
+                                    args.putSerializable("UserModel", (Serializable) user);
+                                    intent.putExtra("Bundle", args);
+                                    context.startActivity(intent);
+                        });
                     })
                     .addOnFailureListener(e -> {
                         Log.d("Debug", "Failed to load chat");
                     });
-        }
 
-        holder.clickLayout.setOnClickListener(v -> {
-            Intent intent = new Intent(context, ChatPage.class);
-            context.startActivity(intent);
-        });
+        }
     }
 
     @Override
