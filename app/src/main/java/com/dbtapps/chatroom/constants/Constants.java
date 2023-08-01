@@ -29,6 +29,10 @@ public class Constants {
     public static final String DB_CHAT_POSITION = "chat_position";
     public static final String DB_USER_IDS = "user_ids";
     public static final String DB_MESSAGES = "messages";
+    public static final String DB_LAST_MESSAGE_SENDER_ID = "last_message_sender_id";
+    public static final String DB_LAST_MESSAGE_RECEIVER_ID = "last_message_receiver_id";
+    public static final String DB_LAST_MESSAGE_USER_TOKEN = "last_message_user_token";
+    public static final String DB_LAST_MESSAGE_TIMESTAMP = "last_message_timestamp";
 
     public static String getKeyUserid() {
         return KEY_USERID;

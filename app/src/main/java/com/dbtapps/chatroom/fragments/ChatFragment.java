@@ -69,10 +69,10 @@ public class ChatFragment extends Fragment {
                             ArrayList<String> chatUserIds = (ArrayList<String>) d.get(Constants.DB_USER_IDS);
                             HashMap<String, Long> chatPositionInList = (HashMap<String, Long>) d.get(Constants.DB_CHAT_POSITION);
 
-                            chatAndGroupLoader.add(new DataLoaderModel(d.getId(), getChatUserId(chatUserIds), chatPositionInList.get(Constants.getKeyUserid())));
+                            chatAndGroupLoader.add(new DataLoaderModel(d.getId(), getChatUserId(chatUserIds)));
                         }
 
-                        chatAndGroupLoader.sort(((o1, o2) -> (int) (o1.chatPositionInList - o2.chatPositionInList)));
+//                        chatAndGroupLoader.sort(((o1, o2) -> (int) (o1.chatPositionInList - o2.chatPositionInList)));
 
                         ChatFragmentRecyclerViewAdapter adapter = new ChatFragmentRecyclerViewAdapter(getContext(),chatAndGroupLoader);
                         chatRv.setAdapter(adapter);

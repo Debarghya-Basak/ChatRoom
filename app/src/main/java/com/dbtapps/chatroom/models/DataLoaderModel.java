@@ -6,12 +6,12 @@ public class DataLoaderModel implements Serializable {
 
     public String chatDocumentId = null;
     public String chatUserId = null;
-    public Long chatPositionInList = null;
+//    public Long chatPositionInList = null;
 
-    public DataLoaderModel(String chatDocumentId, String chatUserId, Long chatPositionInList) {
+    public DataLoaderModel(String chatDocumentId, String chatUserId) {
         this.chatDocumentId = chatDocumentId;
         this.chatUserId = chatUserId;
-        this.chatPositionInList = chatPositionInList;
+//        this.chatPositionInList = chatPositionInList;
     }
 
     public DataLoaderModel(String chatUserId){
