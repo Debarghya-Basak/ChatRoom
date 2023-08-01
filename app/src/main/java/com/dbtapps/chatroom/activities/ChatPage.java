@@ -106,6 +106,7 @@ public class ChatPage extends AppCompatActivity {
                             .set(new MessageModel(binding.messageEt.getText().toString(), Constants.getKeyUserid(), userData.user_id, Timestamp.now()));
                 }
                 else{
+                    chatExistsFlag = true;
 
                     Constants.db.collection(Constants.DB_CHATS)
                             .document().set(userPair)

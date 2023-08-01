@@ -86,7 +86,7 @@ public class ChatFragment extends Fragment {
                 .addSnapshotListener((value, error) -> {
 
                     ArrayList<DataLoaderModel> chatAndGroupLoader = new ArrayList<>();
-                    if(!value.isEmpty()){
+//                    if(!value.isEmpty()){
 
                         for(DocumentSnapshot d : value.getDocuments()){
 
@@ -102,7 +102,7 @@ public class ChatFragment extends Fragment {
                         chatRv.setAdapter(adapter);
                         chatRv.setLayoutManager(new LinearLayoutManager(getActivity()));
                         chatRv.smoothScrollToPosition(0);
-                    }
+//                    }
                 });
 
 

@@ -64,7 +64,10 @@ public class ChatFragmentRecyclerViewAdapter extends RecyclerView.Adapter<ChatFr
             Constants.db.collection(Constants.DB_CHATS)
                     .document(chatAndGroupLoader.get(position).chatDocumentId)
                     .addSnapshotListener((value, error) -> {
-                        holder.chatUserLastMessageTv.setText(value.get(Constants.DB_LAST_MESSAGE).toString());
+                        try {
+                            holder.chatUserLastMessageTv.setText(value.get(Constants.DB_LAST_MESSAGE).toString());
+                        }
+                        catch (Exception e){}
                     });
 
             Constants.db.collection(Constants.DB_USERS)
