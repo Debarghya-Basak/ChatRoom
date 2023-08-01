@@ -28,6 +28,7 @@ import com.google.firebase.firestore.FirebaseFirestoreException;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.concurrent.atomic.AtomicReference;
 
 import de.hdodenhof.circleimageview.CircleImageView;
@@ -35,12 +36,13 @@ import de.hdodenhof.circleimageview.CircleImageView;
 public class ChatFragmentRecyclerViewAdapter extends RecyclerView.Adapter<ChatFragmentRecyclerViewAdapter.ViewHolder> {
 
     private Context context;
-    ArrayList<DataLoaderModel> chatAndGroupLoader;
-    ArrayList<ChatModel> chatList;
+    private ArrayList<DataLoaderModel> dataLoaderModel;
+    //ArrayList<ChatModel> chatList;
 
-    public ChatFragmentRecyclerViewAdapter(Context context, ArrayList<DataLoaderModel> chatAndGroupLoader){
+    public ChatFragmentRecyclerViewAdapter(Context context, ArrayList<DataLoaderModel> dataLoaderModel){
         this.context = context;
-        this.chatAndGroupLoader = chatAndGroupLoader;
+//        this.chatAndGroupLoader = chatAndGroupLoader;
+        this.dataLoaderModel = dataLoaderModel;
     }
 
     @NonNull
@@ -62,16 +64,18 @@ public class ChatFragmentRecyclerViewAdapter extends RecyclerView.Adapter<ChatFr
         if(TextUtils.isEmpty(holder.chatUserNameTv.getText())){
 
             Constants.db.collection(Constants.DB_CHATS)
-                    .document(chatAndGroupLoader.get(position).chatDocumentId)
+                    .document(dataLoaderModel.get(position).chatDocumentId)
                     .addSnapshotListener((value, error) -> {
                         try {
                             holder.chatUserLastMessageTv.setText(value.get(Constants.DB_LAST_MESSAGE).toString());
                         }
-                        catch (Exception e){}
+                        catch (Exception e){
+                            Log.d("Debug", "Cannot get last message");
+                        }
                     });
 
             Constants.db.collection(Constants.DB_USERS)
-                    .document(chatAndGroupLoader.get(position).chatUserId)
+                    .document(dataLoaderModel.get(position).chatUserId)
                     .get()
                     .addOnSuccessListener(documentSnapshot -> {
 
@@ -79,7 +83,7 @@ public class ChatFragmentRecyclerViewAdapter extends RecyclerView.Adapter<ChatFr
                                 , documentSnapshot.get(Constants.DB_PASSWORD).toString()
                                 , documentSnapshot.get(Constants.DB_PHONE_NUMBER).toString()
                                 , documentSnapshot.get(Constants.DB_PROFILE_PICTURE).toString()
-                                , chatAndGroupLoader.get(position).chatUserId);
+                                , dataLoaderModel.get(position).chatUserId);
                         holder.chatUserNameTv.setText(documentSnapshot.get(Constants.DB_NAME).toString());
                         holder.chatUserProfilePicCiv.setImageBitmap(BitmapManipulator.stringToBitMap(documentSnapshot.get(Constants.DB_PROFILE_PICTURE).toString()));
 
@@ -100,7 +104,7 @@ public class ChatFragmentRecyclerViewAdapter extends RecyclerView.Adapter<ChatFr
 
     @Override
     public int getItemCount() {
-        return chatAndGroupLoader.size();
+        return dataLoaderModel.size();
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder{

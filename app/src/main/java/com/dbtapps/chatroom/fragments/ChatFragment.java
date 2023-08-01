@@ -20,6 +20,7 @@ import com.dbtapps.chatroom.constants.Constants;
 import com.dbtapps.chatroom.models.DataLoaderModel;
 import com.dbtapps.chatroom.utilities.MakeToast;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.firebase.firestore.DocumentChange;
 import com.google.firebase.firestore.DocumentSnapshot;
 
 import java.util.ArrayList;
@@ -52,60 +53,68 @@ public class ChatFragment extends Fragment {
     }
 
     private void loadChatData() {
-        //TODO: Load Chat Data properly
-        Log.d("Debug", "ChatFragment : " + Constants.getKeyUserid());
 
-//        Constants.db.collection("chats")
-//                .whereArrayContains("user_ids", Constants.getKeyUserid())
-//                .get()
-//                .addOnSuccessListener(queryDocumentSnapshots -> {
-//                    if(!queryDocumentSnapshots.isEmpty()){
+        //TODO: PERMANENT CODE OF RECYCLER VIEW UPDATE USING NOTIFY FUNCTIONS
+
+//        ArrayList<DataLoaderModel> dataLoaderModel = new ArrayList<>();
 //
-//                        for(DocumentSnapshot d : queryDocumentSnapshots.getDocuments()){
-//                            Log.d("Debug" , "ChatFragment : " + d.get("user_ids") + " , " + d.getId());
-//
-//                            ArrayList<String> chatUserIds = (ArrayList<String>) d.get(Constants.DB_USER_IDS);
-//                            HashMap<String, Long> chatPositionInList = (HashMap<String, Long>) d.get(Constants.DB_CHAT_POSITION);
-//
-//                            chatAndGroupLoader.add(new DataLoaderModel(d.getId(), getChatUserId(chatUserIds)));
-//                        }
-//
-////                        chatAndGroupLoader.sort(((o1, o2) -> (int) (o1.chatPositionInList - o2.chatPositionInList)));
-//
-//                        ChatFragmentRecyclerViewAdapter adapter = new ChatFragmentRecyclerViewAdapter(getContext(),chatAndGroupLoader);
-//                        chatRv.setAdapter(adapter);
-//                        chatRv.setLayoutManager(new LinearLayoutManager(getActivity()));
-//                    }
-//                    else{
-//                        Log.d("Debug" , "ChatFragment : nothing");
-//                    }
-//                });
+//        ChatFragmentRecyclerViewAdapter adapter = new ChatFragmentRecyclerViewAdapter(getContext(),dataLoaderModel);
+//        chatRv.setAdapter(adapter);
+//        chatRv.setLayoutManager(new LinearLayoutManager(getActivity()));
 
         Constants.db.collection("chats")
                 .whereArrayContains("user_ids", Constants.getKeyUserid())
                 .addSnapshotListener((value, error) -> {
 
-                    ArrayList<DataLoaderModel> chatAndGroupLoader = new ArrayList<>();
-//                    if(!value.isEmpty()){
+                    //TODO: TEMPORARY CODE OF RECYCLER VIEW UPDATE
+                    ArrayList<DataLoaderModel> dataLoaderModel = new ArrayList<>();
+                    for(DocumentSnapshot d : value.getDocuments()){
 
-                        for(DocumentSnapshot d : value.getDocuments()){
 
-                            Log.d("Debug" , "ChatFragment : " + d.get("user_ids") + " , " + d.getId());
+                        ArrayList<String> chatUserIds = (ArrayList<String>) d.get(Constants.DB_USER_IDS);
+                        dataLoaderModel.add(new DataLoaderModel(d.getId(), getChatUserId(chatUserIds)));
 
-                            ArrayList<String> chatUserIds = (ArrayList<String>) d.get(Constants.DB_USER_IDS);
-                            HashMap<String, Long> chatPositionInList = (HashMap<String, Long>) d.get(Constants.DB_CHAT_POSITION);
 
-                            chatAndGroupLoader.add(new DataLoaderModel(d.getId(), getChatUserId(chatUserIds)));
-                        }
+                    }
+                    ChatFragmentRecyclerViewAdapter adapter = new ChatFragmentRecyclerViewAdapter(getContext(),dataLoaderModel);
+                    chatRv.setAdapter(adapter);
+                    chatRv.setLayoutManager(new LinearLayoutManager(getActivity()));
 
-                        ChatFragmentRecyclerViewAdapter adapter = new ChatFragmentRecyclerViewAdapter(getContext(),chatAndGroupLoader);
-                        chatRv.setAdapter(adapter);
-                        chatRv.setLayoutManager(new LinearLayoutManager(getActivity()));
-                        chatRv.smoothScrollToPosition(0);
+                    //TODO: PERMANENT CODE OF RECYCLER VIEW UPDATE USING NOTIFY FUNCTIONS
+
+//                    if(value.getDocuments().size() > dataLoaderModel.size()){
+//
+//                        for(DocumentChange d : value.getDocumentChanges()) {
+//
+//                            ArrayList<String> chatUserIds = (ArrayList<String>) d.getDocument().get(Constants.DB_USER_IDS);
+//                            Log.d("MessageChange" , "Message added : " + getChatUserId(chatUserIds));
+//
+//                            dataLoaderModel.add(new DataLoaderModel(d.getDocument().getId(), getChatUserId(chatUserIds)));
+//                            adapter.notifyItemInserted(dataLoaderModel.size());
+//
+//                        }
+//
+//
 //                    }
+//                    else if(value.getDocuments().size() < dataLoaderModel.size()){
+//
+//                        Log.d("MessageChange" , "Message deleted");
+//                        for(DocumentChange d : value.getDocumentChanges()) {
+//                            for (int i = 0; i < dataLoaderModel.size(); i++) {
+//                                if (dataLoaderModel.get(i).chatDocumentId.equals(d.getDocument().getId())) {
+//                                    dataLoaderModel.remove(i);
+//                                    adapter.notifyItemRemoved(i);
+//
+//                                }
+//                            }
+//                        }
+//
+//
+//                    }
+
+
+
                 });
-
-
     }
 
     private String getChatUserId(ArrayList<String> chatUserIds) {

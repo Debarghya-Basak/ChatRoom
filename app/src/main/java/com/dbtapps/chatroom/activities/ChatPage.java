@@ -51,7 +51,7 @@ public class ChatPage extends AppCompatActivity {
         binding.userNameTv.setText(userData.name);
 
         ArrayList<String> chatPair = new ArrayList<>();
-        chatPair.add(Constants.getKeyUserid());
+       chatPair.add(Constants.getKeyUserid());
         chatPair.add(userData.user_id);
         chatPair.sort((ob1, ob2) -> ob1.compareTo(ob2));
 
