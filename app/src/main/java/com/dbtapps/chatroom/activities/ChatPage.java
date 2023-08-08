@@ -1,27 +1,26 @@
 package com.dbtapps.chatroom.activities;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.text.TextUtils;
 import android.util.Log;
 
+import com.dbtapps.chatroom.adapters.ChatMessageRecyclerViewAdapter;
 import com.dbtapps.chatroom.constants.Constants;
 import com.dbtapps.chatroom.databinding.ActivityChatPageBinding;
 import com.dbtapps.chatroom.models.ChatUserPairModel;
 import com.dbtapps.chatroom.models.MessageModel;
 import com.dbtapps.chatroom.models.UserModel;
 import com.dbtapps.chatroom.utilities.BitmapManipulator;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.Timestamp;
+import com.google.firebase.firestore.DocumentChange;
 import com.google.firebase.firestore.DocumentSnapshot;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
 
 public class ChatPage extends AppCompatActivity {
 
@@ -29,6 +28,9 @@ public class ChatPage extends AppCompatActivity {
     private UserModel userData;
     private String chatDocumentId = null;
     private boolean chatExistsFlag = false;
+    private ArrayList<MessageModel> chatMessages;
+    private ChatMessageRecyclerViewAdapter adapter;
+    private boolean adapterCounter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,9 +42,21 @@ public class ChatPage extends AppCompatActivity {
         Bundle args = intent.getBundleExtra("Bundle");
         userData = (UserModel) args.getSerializable("UserModel");
 
+        initializeChatAdapter();
         initializeChatPage();
         backBtnListener();
         sendBtnListener();
+//        startChatMessageSnapshotListener();
+
+    }
+
+    private void initializeChatAdapter() {
+
+        chatMessages = new ArrayList<>();
+        adapter = new ChatMessageRecyclerViewAdapter(this, chatMessages);
+        binding.messagesRv.setAdapter(adapter);
+        binding.messagesRv.setLayoutManager(new LinearLayoutManager(this));
+        adapterCounter = true;
 
     }
 
@@ -51,7 +65,7 @@ public class ChatPage extends AppCompatActivity {
         binding.userNameTv.setText(userData.name);
 
         ArrayList<String> chatPair = new ArrayList<>();
-       chatPair.add(Constants.getKeyUserid());
+        chatPair.add(Constants.getKeyUserid());
         chatPair.add(userData.user_id);
         chatPair.sort((ob1, ob2) -> ob1.compareTo(ob2));
 
@@ -68,6 +82,7 @@ public class ChatPage extends AppCompatActivity {
                         chatExistsFlag = true;
                         Log.d("Debug", "chat exists : " + chatDocumentId);
                         //TODO: LOAD ALL CHATS OF THE PARTICULAR USER PAIR
+                        startChatMessageSnapshotListener();
                     }
                     else {
                         chatExistsFlag = false;
@@ -104,6 +119,8 @@ public class ChatPage extends AppCompatActivity {
                             .collection(Constants.DB_MESSAGES)
                             .document()
                             .set(new MessageModel(binding.messageEt.getText().toString(), Constants.getKeyUserid(), userData.user_id, Timestamp.now()));
+
+                    binding.messageEt.setText("");
                 }
                 else{
                     chatExistsFlag = true;
@@ -123,6 +140,9 @@ public class ChatPage extends AppCompatActivity {
                                             for(DocumentSnapshot d : queryDocumentSnapshots){
                                                 chatDocumentId = d.getId();
                                             }
+
+                                            startChatMessageSnapshotListener();
+
                                             Constants.db.collection(Constants.DB_CHATS)
                                                     .document(chatDocumentId)
                                                     .collection(Constants.DB_MESSAGES)
@@ -130,9 +150,51 @@ public class ChatPage extends AppCompatActivity {
                                                     .set(new MessageModel(binding.messageEt.getText().toString(), Constants.getKeyUserid(), userData.user_id, Timestamp.now()));
                                         });
                             });
+                    binding.messageEt.setText("");
                 }
             }
         });
+    }
+
+    private void startChatMessageSnapshotListener(){
+
+        Constants.db.collection(Constants.DB_CHATS)
+                .document(chatDocumentId)
+                .collection(Constants.DB_MESSAGES)
+                .addSnapshotListener((value, error) -> {
+
+                    for(DocumentChange d : value.getDocumentChanges()) {
+                        chatMessages.add(new MessageModel(d.getDocument().get("message").toString(), d.getDocument().get("sender_id").toString(), d.getDocument().get("receiver_id").toString(), (Timestamp) d.getDocument().get("timestamp")));
+                    }
+
+                    chatMessages.sort((ob1, ob2) -> ob1.timestamp.compareTo(ob2.timestamp));
+
+                    if(chatMessages.isEmpty()){
+                        adapter.notifyDataSetChanged();
+                    }
+                    else {
+                        adapter.notifyItemRangeChanged(chatMessages.size(), 1);
+                        Log.d("Debug", "Smooth scroll happened : " + chatMessages.size());
+                        if(adapterCounter) {
+                            adapterCounter = false;
+                            new Handler().postDelayed(() -> {
+                                binding.messagesRv.scrollToPosition(chatMessages.size() - 1);
+                            }, 10);
+                        }
+                        else{
+                            new Handler().postDelayed(() -> {
+                                binding.messagesRv.smoothScrollToPosition(chatMessages.size() - 1);
+                            }, 10);
+                        }
+                    }
+
+                    //TODO: Remove temp debug lines
+                    Log.d("Debug", "NEW --------------------------------------");
+                    for(MessageModel model : chatMessages) {
+                        Log.d("Debug" , "Incoming messages : " + model.message + ", TIMESTAMP : " + model.timestamp.toString());
+
+                    }
+                });
     }
 
     private void backBtnListener() {
