@@ -60,7 +60,6 @@
         android:focusableInTouchMode="true"
         android:focusable="true"
         android:orientation="vertical"
-        android:overScrollMode="never"
         android:clipToPadding="false"
         app:stackFromEnd="true"/>
 

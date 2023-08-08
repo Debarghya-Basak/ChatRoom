@@ -102,8 +102,9 @@ public class ChatPage extends AppCompatActivity {
                 user_ids.sort((ob1, ob2) -> ob1.compareTo(ob2));
 
                 Timestamp tempTimeStamp = Timestamp.now();
+                String tempMessage = binding.messageEt.getText().toString();
                 ChatUserPairModel userPair = new ChatUserPairModel(user_ids
-                        , binding.messageEt.getText().toString()
+                        , tempMessage
                         , Constants.getKeyUserid()
                         , userData.user_id
                         , Constants.getKeyToken()
@@ -118,7 +119,7 @@ public class ChatPage extends AppCompatActivity {
                             .document(chatDocumentId)
                             .collection(Constants.DB_MESSAGES)
                             .document()
-                            .set(new MessageModel(binding.messageEt.getText().toString(), Constants.getKeyUserid(), userData.user_id, Timestamp.now()));
+                            .set(new MessageModel(tempMessage, Constants.getKeyUserid(), userData.user_id, tempTimeStamp));
 
                     binding.messageEt.setText("");
                 }
@@ -127,27 +128,28 @@ public class ChatPage extends AppCompatActivity {
 
                     Constants.db.collection(Constants.DB_CHATS)
                             .document().set(userPair)
-                            .addOnSuccessListener(unused -> {
+                            .addOnCompleteListener(unused -> {
                                 Constants.db.collection(Constants.DB_CHATS)
                                         .whereEqualTo(Constants.DB_USER_IDS, user_ids)
-                                        .whereEqualTo(Constants.DB_LAST_MESSAGE, binding.messageEt.getText().toString())
+                                        .whereEqualTo(Constants.DB_LAST_MESSAGE, tempMessage)
                                         .whereEqualTo(Constants.DB_LAST_MESSAGE_SENDER_ID, Constants.getKeyUserid())
                                         .whereEqualTo(Constants.DB_LAST_MESSAGE_RECEIVER_ID, userData.user_id)
                                         .whereEqualTo(Constants.DB_LAST_MESSAGE_USER_TOKEN, Constants.getKeyToken())
                                         .whereEqualTo(Constants.DB_LAST_MESSAGE_TIMESTAMP, tempTimeStamp)
                                         .get()
                                         .addOnSuccessListener(queryDocumentSnapshots -> {
-                                            for(DocumentSnapshot d : queryDocumentSnapshots){
+                                            for(DocumentSnapshot d : queryDocumentSnapshots.getDocuments()){
                                                 chatDocumentId = d.getId();
+                                                Log.d("Debug" , "New Chat document id : " + chatDocumentId);
                                             }
-
-                                            startChatMessageSnapshotListener();
 
                                             Constants.db.collection(Constants.DB_CHATS)
                                                     .document(chatDocumentId)
                                                     .collection(Constants.DB_MESSAGES)
                                                     .document()
-                                                    .set(new MessageModel(binding.messageEt.getText().toString(), Constants.getKeyUserid(), userData.user_id, Timestamp.now()));
+                                                    .set(new MessageModel(tempMessage, Constants.getKeyUserid(), userData.user_id, Timestamp.now()));
+
+                                            startChatMessageSnapshotListener();
                                         });
                             });
                     binding.messageEt.setText("");
@@ -173,7 +175,7 @@ public class ChatPage extends AppCompatActivity {
                         adapter.notifyDataSetChanged();
                     }
                     else {
-                        adapter.notifyItemRangeChanged(chatMessages.size(), 1);
+                        adapter.notifyItemRangeChanged(chatMessages.size(), chatMessages.size());
                         Log.d("Debug", "Smooth scroll happened : " + chatMessages.size());
                         if(adapterCounter) {
                             adapterCounter = false;
@@ -182,9 +184,7 @@ public class ChatPage extends AppCompatActivity {
                             }, 10);
                         }
                         else{
-                            new Handler().postDelayed(() -> {
-                                binding.messagesRv.smoothScrollToPosition(chatMessages.size() - 1);
-                            }, 10);
+                            binding.messagesRv.smoothScrollToPosition(chatMessages.size() - 1);
                         }
                     }
 
